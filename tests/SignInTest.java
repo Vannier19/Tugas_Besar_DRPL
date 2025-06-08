@@ -1,5 +1,6 @@
 package tests;
-import src.*;
+
+import src.controllers.UserManagementController;
 
 /**
  * Kelas untuk menguji fitur sign-in pengguna.

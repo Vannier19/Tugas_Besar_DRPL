@@ -1,6 +1,6 @@
 package tests;
 
-import src.*;
+import src.controllers.UserManagementController;
 
 import java.util.Scanner;
 

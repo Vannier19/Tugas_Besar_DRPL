@@ -1,4 +1,7 @@
-package src;
+package src.controllers;
+import src.MedicalRecordFactory;
+import src.PatientFactory;
+import src.MedicalRecord;
 
 import java.util.Date;
 import java.util.List;

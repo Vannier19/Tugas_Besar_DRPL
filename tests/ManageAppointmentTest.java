@@ -1,7 +1,7 @@
 package tests;
 
 import src.Appointment;
-import src.AppointmentController;
+import src.controllers.AppointmentController;
 
 import java.util.Date;
 import java.util.List;

@@ -1,4 +1,6 @@
-package src;
+package src.controllers;
+import src.Medicine;
+import src.Notification;
 
 import java.util.ArrayList;
 import java.util.Date;

@@ -3,7 +3,7 @@ package tests;
 import src.Medicine;
 import src.MedicineFactory;
 import src.Notification;
-import src.NotificationController;
+import src.controllers.NotificationController;
 
 import java.util.List;
 
