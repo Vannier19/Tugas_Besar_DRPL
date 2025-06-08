@@ -1,4 +1,8 @@
-package src;
+package src.controllers;
+import src.AppointmentFactory;
+import src.PatientFactory;
+import src.UserFactory;
+import src.Appointment;
 
 import java.util.Date;
 import java.util.List;

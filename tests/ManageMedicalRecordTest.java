@@ -1,7 +1,7 @@
 package tests;
 
 import src.MedicalRecord;
-import src.MedicalRecordController;
+import src.controllers.MedicalRecordController;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
