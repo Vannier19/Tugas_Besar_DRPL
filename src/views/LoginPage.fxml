@@ -21,13 +21,13 @@
                <children>
                   <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="530.0" prefWidth="440.0" spacing="20.0" styleClass="login-form-card">
                      <children>
-                        <ImageView fitHeight="85.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../assets/womentcare_logo.png" />
-                           </image>
-                        </ImageView>
                         <VBox prefWidth="100.0" spacing="12.0">
                            <children>
+                              <ImageView fitHeight="85.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="src/assets/logo_no_bg.png" />
+                                 </image>
+                              </ImageView>
                               <Label styleClass="login-title" text="Login" />
                               <Label styleClass="form-label" text="Username" />
                               <TextField fx:id="usernameField" promptText="Enter your username" styleClass="text-field" />
