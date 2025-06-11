@@ -2,23 +2,25 @@ package src;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Factory untuk mengelola pembuatan dan penyimpanan objek Patient.
  */
 public class PatientFactory {
-    private Map<String, Patient> patients;
+    private static Map<String, Patient> patients = new HashMap<>();
 
-    public PatientFactory() {
-        patients = new HashMap<>();
-        // Data awal (bisa diisi dari database atau file di masa depan)
+    static {
         patients.put("P001", new Patient("P001", "Budi Santoso", 30));
         patients.put("P002", new Patient("P002", "Ani Wijaya", 25));
     }
 
+    public PatientFactory() {}
+
     /**
-     * Membuat atau mengambil Patient berdasarkan ID.
+     * Membuat atau memperbarui Patient berdasarkan ID.
+     * Jika ID sudah ada, data pasien diperbarui.
      * @param id ID pasien
      * @param name Nama pasien
      * @param age Usia pasien
@@ -34,7 +36,25 @@ public class PatientFactory {
      * Mendapatkan semua pasien.
      * @return Daftar semua pasien
      */
-    public ArrayList<Patient> getAllPatients() {
+    public List<Patient> getAllPatients() {
         return new ArrayList<>(patients.values());
+    }
+
+    /**
+     * Mendapatkan pasien berdasarkan ID.
+     * @param id ID pasien
+     * @return Patient jika ditemukan, null jika tidak.
+     */
+    public Patient getPatientById(String id) {
+        return patients.get(id);
+    }
+
+    /**
+     * Menghapus pasien berdasarkan ID.
+     * @param id ID pasien yang akan dihapus
+     * @return true jika berhasil dihapus, false jika pasien tidak ditemukan.
+     */
+    public boolean deletePatient(String id) { 
+        return patients.remove(id) != null;
     }
 }
