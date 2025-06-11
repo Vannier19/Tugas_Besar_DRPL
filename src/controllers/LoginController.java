@@ -1,9 +1,11 @@
 package src.controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -17,9 +19,12 @@ import java.io.IOException;
 
 public class LoginController {
 
-    @FXML private TextField usernameField;
-    @FXML private PasswordField passwordField;
-    @FXML private Label errorMessageLabel;
+    @FXML
+    private TextField usernameField;
+    @FXML
+    private PasswordField passwordField;
+    @FXML
+    private Label errorMessageLabel;
 
     private UserManagementController userManagementController;
 
@@ -28,9 +33,14 @@ public class LoginController {
     }
 
     @FXML
-    private void handleLogin() {
+    private void handleLogin(ActionEvent event) {
         String username = usernameField.getText();
         String password = passwordField.getText();
+
+        if (username.isEmpty() || password.isEmpty()) {
+            errorMessageLabel.setText("Username and password cannot be empty.");
+            return;
+        }
 
         try {
             User user = userManagementController.signIn(username, password);
@@ -39,17 +49,38 @@ public class LoginController {
                 SessionManager.setCurrentUser(user);
                 errorMessageLabel.setText("");
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/views/DashboardPage.fxml"));
+                String dashboardFxmlPath;
+                String role = user.getRole();
+
+                switch (role) {
+                    case "System Manager":
+                        dashboardFxmlPath = "/src/views/SystemManagerDashboardPage.fxml";
+                        break;
+                    // case "Dokter":
+                    //     dashboardFxmlPath = "/src/views/DoctorDashboard.fxml";
+                    //     break;
+                    // case "Apoteker":
+                    //     dashboardFxmlPath = "/src/views/ApothecaryDashboard.fxml";
+                    //     break;
+                    // case "Administrator":
+                    //     dashboardFxmlPath = "/src/views/AdminDashboard.fxml";
+                    //     break;
+                    default:
+                        errorMessageLabel.setText("Dashboard untuk role '" + role + "' tidak ditemukan.");
+                        return;
+                }
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(dashboardFxmlPath));
                 Parent dashboardPage = loader.load();
 
-                Stage stage = (Stage) usernameField.getScene().getWindow();
-                Scene dashboardScene = new Scene(dashboardPage, 1000, 700);
+                Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                Scene dashboardScene = new Scene(dashboardPage, 1280, 720);
 
                 stage.setScene(dashboardScene);
-                stage.setTitle("Sistem Manajemen Klinik Sehat Medika - Dashboard");
-                stage.sizeToScene(); // Adjusts the stage to the size of the scene content if preferred sizes are set in FXML
-                stage.setResizable(true); // Ensure the window is resizable
+                stage.setTitle("Womentcare - " + role + " Dashboard");
+                stage.setResizable(true);
+                stage.centerOnScreen();
                 stage.show();
+
             } else {
                 errorMessageLabel.setText("Username atau password salah!");
             }
@@ -57,7 +88,8 @@ public class LoginController {
             errorMessageLabel.setText(e.getMessage());
         } catch (IOException e) {
             e.printStackTrace();
-            FXMLUtils.showAlert(javafx.scene.control.Alert.AlertType.ERROR, "Error", "Gagal Memuat Halaman", "Tidak dapat memuat halaman dashboard.");
+            errorMessageLabel.setText("Error: Gagal memuat halaman dashboard wek.");
+            FXMLUtils.showAlert(javafx.scene.control.Alert.AlertType.ERROR, "Load Error", "Gagal Memuat Halaman", "File FXML untuk dashboard tidak dapat ditemukan atau rusak.");
         }
     }
 }

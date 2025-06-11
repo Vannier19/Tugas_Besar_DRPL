@@ -54,8 +54,8 @@ public class DashboardController {
 
         if ("System Manager".equals(role)) {
             patientManagementButton.setVisible(true);
-            medicineManagementButton.setVisible(true);
-            schedulingButton.setVisible(true);
+            // medicineManagementButton.setVisible(true);
+            // schedulingButton.setVisible(true);
             userManagementButton.setVisible(true);
         }
         else if ("Dokter".equals(role)) {
