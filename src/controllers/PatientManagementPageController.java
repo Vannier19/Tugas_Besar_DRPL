@@ -14,6 +14,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
+import java.util.Comparator;
+import java.util.Collections;
+
 public class PatientManagementPageController {
 
     @FXML private TextField nameField;
@@ -47,6 +50,21 @@ public class PatientManagementPageController {
     private void loadPatientData() {
         patientList.clear();
         patientList.addAll(patientManagementController.retrieveAllPatients());
+
+        // Sort the list by ID in descending order
+        Collections.sort(patientList, new Comparator<Patient>() {
+            @Override
+            public int compare(Patient p1, Patient p2) {
+                try {
+                    int id1 = Integer.parseInt(p1.getId().substring(1));
+                    int id2 = Integer.parseInt(p2.getId().substring(1));
+                    return Integer.compare(id2, id1);
+                } catch (NumberFormatException e) {
+                    return p2.getId().compareTo(p1.getId());
+                }
+            }
+        });
+
         patientTable.setItems(patientList);
     }
 
@@ -54,8 +72,6 @@ public class PatientManagementPageController {
         if (patient != null) {
             nameField.setText(patient.getName());
             ageField.setText(String.valueOf(patient.getAge()));
-            // ID field is usually not editable, but can be displayed if needed.
-            // For now, we use selected item's ID for update/delete.
         } else {
             clearForm();
         }
@@ -69,7 +85,7 @@ public class PatientManagementPageController {
 
             String message = patientManagementController.addNewPatient(name, age);
             FXMLUtils.showAlert(Alert.AlertType.INFORMATION, "Sukses", "Tambah Pasien", message);
-            loadPatientData(); // Refresh table
+            loadPatientData();
             clearForm();
         } catch (NumberFormatException e) {
             FXMLUtils.showAlert(Alert.AlertType.ERROR, "Input Error", "Usia Tidak Valid", "Usia harus berupa angka.");
@@ -92,7 +108,7 @@ public class PatientManagementPageController {
 
             String message = patientManagementController.updateExistingPatient(selectedPatient.getId(), name, age);
             FXMLUtils.showAlert(Alert.AlertType.INFORMATION, "Sukses", "Perbarui Pasien", message);
-            loadPatientData(); // Refresh table
+            loadPatientData();
             clearForm();
         } catch (NumberFormatException e) {
             FXMLUtils.showAlert(Alert.AlertType.ERROR, "Input Error", "Usia Tidak Valid", "Usia harus berupa angka.");
@@ -112,7 +128,7 @@ public class PatientManagementPageController {
         try {
             String message = patientManagementController.deletePatient(selectedPatient.getId());
             FXMLUtils.showAlert(Alert.AlertType.INFORMATION, "Sukses", "Hapus Pasien", message);
-            loadPatientData(); // Refresh table
+            loadPatientData();
             clearForm();
         } catch (IllegalArgumentException e) {
             FXMLUtils.showAlert(Alert.AlertType.ERROR, "Error", "Hapus Pasien Gagal", e.getMessage());
@@ -122,7 +138,7 @@ public class PatientManagementPageController {
     @FXML
     private void handleClearForm() {
         clearForm();
-        patientTable.getSelectionModel().clearSelection(); // Deselect any selected row
+        patientTable.getSelectionModel().clearSelection();
     }
 
     private void clearForm() {
