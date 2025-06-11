@@ -1,8 +1,10 @@
 package src.controllers;
 import src.User;
 import src.UserFactory;
+import javafx.fxml.FXML;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Controller untuk mengelola operasi terkait pengguna.
@@ -14,6 +16,11 @@ public class UserManagementController {
         userFactory = new UserFactory();
     }
 
+    @FXML
+    public void initialize() {
+        // Initialization logic for User Management page
+    }
+    
     /**
      * Menambahkan pengguna baru.
      * @param id ID pengguna
@@ -43,7 +50,7 @@ public class UserManagementController {
      * Mendapatkan semua pengguna.
      * @return Daftar semua pengguna
      */
-    public ArrayList<User> getAllUsers() {
+    public List<User> getAllUsers() {
         return userFactory.getAllUsers();
     }
 
@@ -51,22 +58,16 @@ public class UserManagementController {
      * Melakukan sign-in pengguna.
      * @param username Nama pengguna
      * @param password Kata sandi
-     * @return Pesan sukses dengan detail pengguna
-     * @throws IllegalArgumentException Jika parameter tidak valid
-     * @throws SecurityException Jika autentikasi gagal
+     * @return User object if successful, null if authentication fails.
+     * @throws IllegalArgumentException Jika username atau password null/kosong.
      */
-    
-    public String signIn(String username, String password) {
+    public User signIn(String username, String password) {
         if (username == null || password == null) {
             throw new IllegalArgumentException("Username dan password tidak boleh null!");
         }
         if (username.isEmpty() || password.isEmpty()) {
             throw new IllegalArgumentException("Username dan password tidak boleh kosong!");
         }
-        User user = userFactory.signIn(username, password);
-        if (user == null) {
-            throw new SecurityException("Sign-in gagal: Username atau password salah!");
-        }
-        return "Sign-in berhasil! ID: " + user.getId() + ", Role: " + user.getRole();
+        return userFactory.signIn(username, password);
     }
 }
