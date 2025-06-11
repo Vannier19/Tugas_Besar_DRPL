@@ -1,7 +1,6 @@
 package tests;
 
 import src.controllers.UserManagementController;
-import src.User;
 
 import java.util.Scanner;
 
@@ -20,7 +19,7 @@ public class InteractiveSignInTest {
         String password = scanner.nextLine();
 
         try {
-            User result = controller.signIn(username, password);
+            String result = controller.signIn(username, password);
             System.out.println("Hasil: " + result);
         } catch (IllegalArgumentException | SecurityException e) {
             System.out.println("Hasil: Gagal - " + e.getMessage());
