@@ -1,66 +1,48 @@
 package src.controllers;
 import src.User;
-import src.UserFactory;
-import javafx.fxml.FXML;
-
-import java.util.ArrayList;
+import src.UserFactory; 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * Controller untuk mengelola operasi terkait pengguna.
- */
+
 public class UserManagementController {
     private UserFactory userFactory;
+    private static final AtomicInteger idCounter = new AtomicInteger(0); 
 
     public UserManagementController() {
         userFactory = new UserFactory();
+        int maxIdNum = userFactory.getAllUsers().stream()
+                                  .map(User::getId)
+                                  .filter(id -> id.startsWith("U"))
+                                  .mapToInt(id -> {
+                                      try {
+                                          return Integer.parseInt(id.substring(1));
+                                      } catch (NumberFormatException e) {
+                                          return 0;
+                                      }
+                                  })
+                                  .max().orElse(0);
+        idCounter.set(maxIdNum);
     }
 
-    @FXML
-    public void initialize() {
-        // Initialization logic for User Management page
-    }
-    
-    /**
-     * Menambahkan pengguna baru.
-     * @param id ID pengguna
-     * @param username Nama pengguna
-     * @param password Kata sandi
-     * @param role Peran pengguna
-     * @return Pesan sukses
-     * @throws IllegalArgumentException Jika parameter tidak valid
-     * @throws IllegalStateException Jika ID sudah ada
-     */
+    public String addUser(String username, String password, String role) { 
+        if (username == null || username.isEmpty() || password == null || password.isEmpty() || role == null || role.isEmpty()) {
+            throw new IllegalArgumentException("Username, password, dan role tidak boleh kosong!");
+        }
 
-    public String addUser(String id, String username, String password, String role) {
-        if (id == null || username == null || password == null || role == null) {
-            throw new IllegalArgumentException("Parameter tidak boleh null!");
+        String newId = "U" + String.format("%03d", idCounter.incrementAndGet());
+        if (userFactory.getUserById(newId) != null) {
+            throw new IllegalStateException("Gagal menambahkan pengguna: ID sudah ada (otomatis)");
         }
-        if (id.isEmpty() || username.isEmpty() || password.isEmpty() || role.isEmpty()) {
-            throw new IllegalArgumentException("Parameter tidak boleh kosong!");
-        }
-        if (userFactory.getAllUsers().stream().anyMatch(u -> u.getId().equals(id))) {
-            throw new IllegalStateException("Gagal menambahkan pengguna: ID sudah ada!");
-        }
-        userFactory.createUser(id, username, password, role);
-        return "Pengguna " + username + " berhasil ditambahkan!";
+        
+        userFactory.createUser(newId, username, password, role);
+        return "Pengguna " + username + " berhasil ditambahkan dengan ID: " + newId + ".";
     }
 
-    /**
-     * Mendapatkan semua pengguna.
-     * @return Daftar semua pengguna
-     */
     public List<User> getAllUsers() {
         return userFactory.getAllUsers();
     }
 
-    /**
-     * Melakukan sign-in pengguna.
-     * @param username Nama pengguna
-     * @param password Kata sandi
-     * @return User object if successful, null if authentication fails.
-     * @throws IllegalArgumentException Jika username atau password null/kosong.
-     */
     public User signIn(String username, String password) {
         if (username == null || password == null) {
             throw new IllegalArgumentException("Username dan password tidak boleh null!");
@@ -68,6 +50,40 @@ public class UserManagementController {
         if (username.isEmpty() || password.isEmpty()) {
             throw new IllegalArgumentException("Username dan password tidak boleh kosong!");
         }
-        return userFactory.signIn(username, password);
+        return userFactory.signIn(username, password); 
+    }
+
+    public String updateUser(String id, String newUsername, String newPassword, String newRole) {
+        if (id == null || id.isEmpty() || newUsername == null || newUsername.isEmpty() ||
+            newPassword == null || newPassword.isEmpty() || newRole == null || newRole.isEmpty()) {
+            throw new IllegalArgumentException("Semua parameter untuk update tidak boleh kosong!");
+        }
+
+        User userToUpdate = userFactory.getUserById(id);
+        if (userToUpdate == null) {
+            throw new IllegalArgumentException("Pengguna dengan ID " + id + " tidak ditemukan!");
+        }
+
+        userToUpdate.setUsername(newUsername);
+        userToUpdate.setPassword(newPassword);
+        userToUpdate.setRole(newRole);
+
+        userFactory.createUser(userToUpdate.getId(), userToUpdate.getUsername(), userToUpdate.getPassword(), userToUpdate.getRole());
+        return "Pengguna " + newUsername + " (ID: " + id + ") berhasil diperbarui.";
+    }
+
+    public String deleteUser(String id) {
+        if (id == null || id.isEmpty()) {
+            throw new IllegalArgumentException("ID pengguna tidak boleh kosong!");
+        }
+        if (userFactory.deleteUser(id)) {
+            return "Pengguna dengan ID " + id + " berhasil dihapus.";
+        } else {
+            throw new IllegalArgumentException("Pengguna dengan ID " + id + " tidak ditemukan.");
+        }
+    }
+
+    public User getUserById(String id) {
+        return userFactory.getUserById(id);
     }
 }

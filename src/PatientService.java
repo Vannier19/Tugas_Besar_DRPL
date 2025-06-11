@@ -1,56 +1,58 @@
 package src;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class PatientService {
-    private static Map<String, Patient> patients = new HashMap<>();
-    private static final AtomicInteger idCounter = new AtomicInteger(0); // For generating simple IDs
+    private static PatientFactory patientFactory = new PatientFactory(); 
+    private static final AtomicInteger idCounter = new AtomicInteger(0); 
 
     static {
-        // Initial data, similar to PatientFactory
-        patients.put("P001", new Patient("P001", "Budi Santoso", 30));
-        patients.put("P002", new Patient("P002", "Ani Wijaya", 25));
-        idCounter.set(2);
+        int maxIdNum = patientFactory.getAllPatients().stream()
+                                  .map(Patient::getId)
+                                  .filter(id -> id.startsWith("P"))
+                                  .mapToInt(id -> {
+                                      try {
+                                          return Integer.parseInt(id.substring(1));
+                                      } catch (NumberFormatException e) {
+                                          return 0;
+                                      }
+                                  })
+                                  .max().orElse(0);
+        idCounter.set(maxIdNum);
     }
 
-    public PatientService() {
-        // Ensure initial IDs are higher than existing ones if any are added programmatically
-        // A more robust ID generation would be needed for a real DB
-    }
+    public PatientService() {}
 
     public List<Patient> getAllPatients() {
-        return new ArrayList<>(patients.values());
+        return patientFactory.getAllPatients();
     }
 
     public Patient getPatientById(String id) {
-        return patients.get(id);
+        return patientFactory.getPatientById(id);
     }
 
     public boolean addPatient(Patient patient) {
-        if (patients.containsKey(patient.getId())) {
+        if (patientFactory.getPatientById(patient.getId()) != null) {
             return false;
         }
-        patients.put(patient.getId(), patient);
+        patientFactory.createPatient(patient.getId(), patient.getName(), patient.getAge());
         return true;
     }
 
     public boolean updatePatient(Patient patient) {
-        if (!patients.containsKey(patient.getId())) {
+        if (patientFactory.getPatientById(patient.getId()) == null) {
             return false;
         }
-        patients.put(patient.getId(), patient);
+        patientFactory.createPatient(patient.getId(), patient.getName(), patient.getAge());
         return true;
     }
 
     public boolean deletePatient(String id) {
-        return patients.remove(id) != null;
+        return patientFactory.deletePatient(id); 
     }
 
-    // A simple method to generate a new patient ID
     public String generateNewPatientId() {
         return "P" + String.format("%03d", idCounter.incrementAndGet());
     }
