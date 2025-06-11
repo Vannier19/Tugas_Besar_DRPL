@@ -33,7 +33,6 @@
                               <TextField fx:id="usernameField" promptText="Enter your username" styleClass="text-field" />
                               <Label styleClass="form-label" text="Password" />
                               <PasswordField fx:id="passwordField" promptText="Enter your password" styleClass="password-field" />
-                              <Hyperlink alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="340.0" text="Forgot Password?" textFill="#a4a4a4" />
                            </children>
                         </VBox>
                         <Button fx:id="signInButton" mnemonicParsing="false" onAction="#handleLogin" prefHeight="50.0" prefWidth="340.0" styleClass="signin-button" text="Sign In" />
