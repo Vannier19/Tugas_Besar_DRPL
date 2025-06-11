@@ -1,3 +1,4 @@
+// File: src/Main.java
 package src;
 
 import javafx.application.Application;
@@ -11,20 +12,17 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        URL fxmlLocation = getClass().getResource("/src/views/PatientManagementPage.fxml");
-        System.out.println("FXML Location: " + fxmlLocation); // <--- Add this line
-
+        URL fxmlLocation = getClass().getResource("/src/views/LoginPage.fxml");
         if (fxmlLocation == null) {
-            System.err.println("ERROR: FXML file not found at the specified path!");
-            // You might want to throw a more specific exception or show an alert here
-            return; // Prevent NullPointerException
+            System.err.println("ERROR: LoginPage.fxml not found at the specified path!");
+            return; 
         }
 
         FXMLLoader loader = new FXMLLoader(fxmlLocation);
         Parent root = loader.load();
 
         Scene scene = new Scene(root);
-        primaryStage.setTitle("Sistem Manajemen Klinik Sehat Medika - Manajemen Pasien");
+        primaryStage.setTitle("Klinik Sehat Medika - Login");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
