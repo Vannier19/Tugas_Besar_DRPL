@@ -1,30 +1,35 @@
 package src.controllers;
 
 import src.Patient;
-import src.controllers.PatientManagementController;
 import src.utils.FXMLUtils;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
-
-import java.util.Comparator;
+import java.util.Optional;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class PatientManagementPageController {
 
-    @FXML private TextField nameField;
-    @FXML private TextField ageField;
+    @FXML private TextField patientNameField;
+    @FXML private TextField patientAgeField;
+    @FXML private TitledPane addPatientPane;
+    @FXML private TitledPane managePatientsPane;
+
     @FXML private TableView<Patient> patientTable;
-    @FXML private TableColumn<Patient, String> idColumn;
-    @FXML private TableColumn<Patient, String> nameColumn;
-    @FXML private TableColumn<Patient, Integer> ageColumn;
+    @FXML private TableColumn<Patient, Integer> patientIdColumn;
+    @FXML private TableColumn<Patient, String> patientNameColumn;
+    @FXML private TableColumn<Patient, Integer> patientAgeColumn;
 
     private PatientManagementController patientManagementController;
     private ObservableList<Patient> patientList;
@@ -33,11 +38,25 @@ public class PatientManagementPageController {
     public void initialize() {
         patientManagementController = new PatientManagementController();
         patientList = FXCollections.observableArrayList();
+        managePatientsPane.setExpanded(false);
+        addPatientPane.setExpanded(false);
 
         // Set up table columns to bind to Patient properties
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        ageColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
+        patientIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        patientNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        patientAgeColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
+
+        addPatientPane.expandedProperty().addListener((observable, wasExpanded, isNowExpanded) -> {
+            if (isNowExpanded) {
+                managePatientsPane.setExpanded(false);
+            }
+        });
+
+        managePatientsPane.expandedProperty().addListener((observable, wasExpanded, isNowExpanded) -> {
+            if (isNowExpanded) {
+                addPatientPane.setExpanded(false);
+            }
+        });
 
         // Load initial data
         loadPatientData();
@@ -70,8 +89,8 @@ public class PatientManagementPageController {
 
     private void showPatientDetails(Patient patient) {
         if (patient != null) {
-            nameField.setText(patient.getName());
-            ageField.setText(String.valueOf(patient.getAge()));
+            patientNameField.setText(patient.getName());
+            patientAgeField.setText(String.valueOf(patient.getAge()));
         } else {
             clearForm();
         }
@@ -80,8 +99,8 @@ public class PatientManagementPageController {
     @FXML
     private void handleAddPatient() {
         try {
-            String name = nameField.getText().trim();
-            int age = Integer.parseInt(ageField.getText().trim());
+            String name = patientNameField.getText().trim();
+            int age = Integer.parseInt(patientAgeField.getText().trim());
 
             String message = patientManagementController.addNewPatient(name, age);
             FXMLUtils.showAlert(Alert.AlertType.INFORMATION, "Sukses", "Tambah Pasien", message);
@@ -103,8 +122,8 @@ public class PatientManagementPageController {
         }
 
         try {
-            String name = nameField.getText().trim();
-            int age = Integer.parseInt(ageField.getText().trim());
+            String name = patientNameField.getText().trim();
+            int age = Integer.parseInt(patientAgeField.getText().trim());
 
             String message = patientManagementController.updateExistingPatient(selectedPatient.getId(), name, age);
             FXMLUtils.showAlert(Alert.AlertType.INFORMATION, "Sukses", "Perbarui Pasien", message);
@@ -142,7 +161,7 @@ public class PatientManagementPageController {
     }
 
     private void clearForm() {
-        nameField.clear();
-        ageField.clear();
+        patientNameField.clear();
+        patientAgeField.clear();
     }
 }
