@@ -12,22 +12,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.controllers.ViewAppointmentController">
-    <children>
-        <VBox alignment="TOP_CENTER" spacing="15.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-            <children>
-                <Label styleClass="page-title" text="Weekly Appointment Schedule">
-                    <font>
-                        <Font name="System Bold" size="24.0" />
-                    </font>
-                </Label>
-                <HBox alignment="CENTER_LEFT" maxWidth="600.0" spacing="10.0">
-                    <children>
-                        <Label text="Tampilkan Jadwal Dokter:" style="-fx-font-weight: bold;" />
-                        <ComboBox fx:id="doctorSelectorComboBox" prefWidth="400.0" promptText="Pilih dokter untuk melihat jadwal..." />
-                    </children>
-                </HBox>
-                <ScrollPane fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">
+<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.controllers.MyAppointmentViewController">
+   <children>
+      <VBox alignment="TOP_CENTER" spacing="15.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <Label styleClass="page-title" text="My Weekly Schedule">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <ScrollPane fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">
                     <content>
                         <GridPane fx:id="scheduleGrid" gridLinesVisible="true">
                             
@@ -58,7 +52,7 @@
                         </GridPane>
                     </content>
                 </ScrollPane>
-            </children>
-        </VBox>
-    </children>
+         </children>
+      </VBox>
+   </children>
 </AnchorPane>

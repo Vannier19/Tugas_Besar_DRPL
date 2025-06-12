@@ -1,4 +1,3 @@
-// File: src/Patient.java
 package src;
 
 import javafx.beans.property.IntegerProperty;
@@ -16,8 +15,6 @@ public class Patient {
         this.name = new SimpleStringProperty(name);
         this.age = new SimpleIntegerProperty(age);
     }
-
-    // Property Getters (for JavaFX binding)
     public StringProperty idProperty() {
         return id;
     }
@@ -30,7 +27,6 @@ public class Patient {
         return age;
     }
 
-    // Standard Getters
     public String getId() {
         return id.get();
     }
@@ -53,5 +49,10 @@ public class Patient {
 
     public void setAge(int age) {
         this.age.set(age);
+    }
+
+    @Override
+    public String toString() {
+        return this.getName() + " (" + this.getId() + ")";
     }
 }

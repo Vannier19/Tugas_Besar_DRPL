@@ -21,6 +21,8 @@ public class AppointmentFactory {
         appointments.put("APP001", new Appointment("APP001", patientId1, doctorId1, today.atTime(9, 0)));
         appointments.put("APP002", new Appointment("APP002", patientId2, doctorId1, today.plusDays(1).atTime(11, 0)));
         appointments.put("APP003", new Appointment("APP003", patientId1, doctorId1, today.plusDays(2).atTime(14, 0)));
+        appointments.put("APP004", new Appointment("APP004", patientId1, doctorId1, LocalDateTime.now().withSecond(0).withNano(0)));
+
 
     }
 
