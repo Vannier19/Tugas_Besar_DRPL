@@ -6,58 +6,31 @@ public class Prescription {
     private String id;
     private String patientId;
     private String doctorId;
-    private Date prescriptionDate;
-
-    public Prescription(String id, String patientId, String doctorId, Date prescriptionDate) {
-        if (id == null || id.isEmpty() || patientId == null || patientId.isEmpty() || doctorId == null || doctorId.isEmpty() || prescriptionDate == null) {
-            throw new IllegalArgumentException("Semua parameter resep tidak boleh kosong.");
-        }
+    private String medicineName;
+    private String dosage;
+    private String quantity;
+    private String notes;
+    private Date issueDate;
+    private String status;
+    public Prescription(String id, String patientId, String doctorId, String medicineName, String dosage, String quantity, String notes) {
         this.id = id;
         this.patientId = patientId;
         this.doctorId = doctorId;
-        this.prescriptionDate = prescriptionDate;
+        this.medicineName = medicineName;
+        this.dosage = dosage;
+        this.quantity = quantity;
+        this.notes = notes;
+        this.issueDate = new Date();
+        this.status = "Pending";
     }
-
-    // Getters
-    public String getId() {
-        return id;
-    }
-
-    public String getPatientId() {
-        return patientId;
-    }
-
-    public String getDoctorId() {
-        return doctorId;
-    }
-
-    public Date getPrescriptionDate() {
-        return prescriptionDate;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setPatientId(String patientId) {
-        this.patientId = patientId;
-    }
-
-    public void setDoctorId(String doctorId) {
-        this.doctorId = doctorId;
-    }
-
-    public void setPrescriptionDate(Date prescriptionDate) {
-        this.prescriptionDate = prescriptionDate;
-    }
-
-    @Override
-    public String toString() {
-        return "Prescription{" +
-               "id='" + id + '\'' +
-               ", patientId='" + patientId + '\'' +
-               ", doctorId='" + doctorId + '\'' +
-               ", prescriptionDate=" + prescriptionDate +
-               '}';
-    }
+    public String getId() { return id; }
+    public String getPatientId() { return patientId; }
+    public String getDoctorId() { return doctorId; }
+    public String getMedicineName() { return medicineName; }
+    public String getDosage() { return dosage; }
+    public String getQuantity() { return quantity; }
+    public String getNotes() { return notes; }
+    public Date getIssueDate() { return issueDate; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 }
