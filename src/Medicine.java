@@ -48,4 +48,10 @@ public class Medicine {
     public void setStock(int stock) { this.stock.set(stock); }
     public void setExpiryDate(Date expiryDate) { this.expiryDate.set(expiryDate); }
     public void setSupplier(String supplier) { this.supplier.set(supplier); }
+
+    @Override
+    public String toString() {
+        return String.format("Medicine{id='%s', name='%s'}",
+                id.get(), name.get());
+    }
 }

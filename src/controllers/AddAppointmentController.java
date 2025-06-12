@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class AddAppointmentController {
 
@@ -30,6 +31,7 @@ public class AddAppointmentController {
     private UserFactory userFactory;
     private PatientFactory patientFactory;
     private AppointmentFactory appointmentFactory;
+    private static final AtomicInteger idCounter = new AtomicInteger(4);
 
     @FXML
     public void initialize() {
@@ -71,7 +73,7 @@ public class AddAppointmentController {
             LocalTime time = LocalTime.parse(selectedTime);
             LocalDateTime appointmentDateTime = LocalDateTime.of(selectedDate, time);
 
-            String newAppointmentId = "APP-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+            String newAppointmentId = "APP" + String.format("%03d", idCounter.incrementAndGet());
 
             Appointment newAppointment = new Appointment(newAppointmentId, patientId, doctorId, appointmentDateTime);
             appointmentFactory.addAppointment(newAppointment);
