@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" stylesheets="@dashboard-style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.controllers.SystemManagerDashboardController">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" stylesheets="@dashboard-style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.controllers.DoctorDashboardController">
    <children>
       <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -23,9 +23,9 @@
                   </ImageView>
                   <VBox spacing="20.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Button fx:id="userManagementButton" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleUserManagement" styleClass="sidebar-button" text="User Management" />
-                        <Button fx:id="patientManagementButton" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handlePatientManagement" styleClass="sidebar-button" text="Patient Management" />
-                        <Button fx:id="accountButton" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleAccount" styleClass="sidebar-button" text="Account" />
+                        <Button fx:id="myAppointmentsButton" onAction="#handleMyAppointment" styleClass="sidebar-button" text="My Appointments" />
+                        <Button fx:id="patientMedicalRecordButton" onAction="#handlePatientMedicalRecord" styleClass="sidebar-button" text="Patient Medical Records" />
+                        <Button fx:id="accountButton" onAction="#handleAccount" styleClass="sidebar-button" text="Account" />
                      </children>
                   </VBox>
                   <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
