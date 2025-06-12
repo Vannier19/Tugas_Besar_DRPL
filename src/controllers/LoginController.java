@@ -62,9 +62,9 @@ public class LoginController {
                     // case "Apoteker":
                     //     dashboardFxmlPath = "/src/views/ApothecaryDashboard.fxml";
                     //     break;
-                    // case "Administrator":
-                    //     dashboardFxmlPath = "/src/views/AdminDashboard.fxml";
-                    //     break;
+                    case "Administrator":
+                        dashboardFxmlPath = "/src/views/AdminDashboardPage.fxml";
+                        break;
                     default:
                         errorMessageLabel.setText("Dashboard untuk role '" + role + "' tidak ditemukan.");
                         return;
