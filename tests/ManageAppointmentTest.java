@@ -3,6 +3,7 @@ package tests;
 import src.Appointment;
 import src.controllers.AppointmentController;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -26,7 +27,7 @@ public class ManageAppointmentTest {
         String doctorId = scanner.nextLine();
 
         try {
-            String result = controller.createAppointment(patientId, doctorId, new Date());
+            String result = controller.createAppointment(patientId, doctorId, LocalDateTime.now());
             System.out.println("Hasil: " + result);
         } catch (IllegalArgumentException e) {
             System.err.println("Gagal: " + e.getMessage());

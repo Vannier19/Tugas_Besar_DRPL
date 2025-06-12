@@ -4,6 +4,7 @@ import src.PatientFactory;
 import src.UserFactory;
 import src.Appointment;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -20,7 +21,7 @@ public class AppointmentController {
         this.userFactory = new UserFactory();
     }
 
-    public String createAppointment(String patientId, String doctorId, Date date) {
+    public String createAppointment(String patientId, String doctorId, LocalDateTime date) {
         if (patientFactory.getAllPatients().stream().noneMatch(p -> p.getId().equals(patientId))) {
             throw new IllegalArgumentException("Pasien dengan ID " + patientId + " tidak ditemukan.");
         }

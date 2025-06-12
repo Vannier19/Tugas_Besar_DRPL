@@ -19,12 +19,25 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView; 
 import javafx.geometry.Pos; 
 import javafx.geometry.Insets; 
+import javafx.scene.layout.StackPane; 
+import javafx.scene.layout.Pane;     
+import javafx.scene.control.ListView;  
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ComboBox; 
+import javafx.util.Callback;
+import javafx.scene.control.ListCell; 
 
 import src.User;
 import src.utils.FXMLUtils;
 import src.utils.SessionManager;
+import src.Notification; 
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class ApothecaryDashboardController {
     @FXML
@@ -47,24 +60,34 @@ public class ApothecaryDashboardController {
     private HBox roleHeaderBox;    
     @FXML
     private VBox dashboardCardsContainer; 
+    @FXML
+    private StackPane rootStackPane; 
 
     private Button activeButton; 
     private User currentUser; 
+    private NotificationController notificationController; 
+    
+    private ObservableList<Notification> currentDisplayedNotifications; 
 
     @FXML
     public void initialize() {
+        notificationController = new NotificationController(); 
         currentUser = SessionManager.getCurrentUser();
+
         Platform.runLater(() -> {
             if (currentUser != null) {
                 welcomeText.setText("Welcome, "); 
                 loggedInUserLabel.setText(currentUser.getRole() + " " + currentUser.getUsername()); 
-                roleText.setText("");
+                roleText.setText(""); 
             } else {
                 welcomeText.setText("Welcome, ");
                 loggedInUserLabel.setText("Guest!");
                 roleText.setText("Not logged in");
             }
-            showApothecaryWelcomeView();
+            // Discover notifications once when dashboard initializes
+            // This will populate the static persistentNotifications map
+            notificationController.discoverNewNotifications(); 
+            showApothecaryWelcomeView(); 
         });
     }
 
@@ -111,29 +134,55 @@ public class ApothecaryDashboardController {
     }
 
     public void showApothecaryWelcomeView() {
-        if (activeButton != null) {
-            activeButton.getStyleClass().remove("sidebar-button-active");
-            activeButton = null; 
-        }
-
         dashboardCardsContainer.getChildren().clear(); 
 
-        HBox cardsHBox = new HBox(40.0); 
-        cardsHBox.setAlignment(Pos.CENTER);
-        VBox.setVgrow(cardsHBox, Priority.ALWAYS);
-        VBox pharmacyCard = createWelcomeCard("Prescription Management", "src/assets/prescription_icon.png", "#00D2A3", "Manage Prescriptions");
+        HBox topCardsHBox = new HBox(40.0); 
+        topCardsHBox.setAlignment(Pos.CENTER);
+        VBox.setVgrow(topCardsHBox, Priority.NEVER); 
+
+        VBox pharmacyCard = createWelcomeCard("Prescription Management", "/src/assets/prescription_icon.png", "#00D2A3", "Manage Prescriptions");
         pharmacyCard.setOnMouseClicked(event -> {
-            setActiveButton(pharmacyManagementButton); 
-            FXMLUtils.showAlert(Alert.AlertType.INFORMATION, "Informasi", "Fitur Belum Tersedia", "Manajemen Farmasi sedang dalam pengembangan.");
         }); 
         
-        VBox notificationsCard = createWelcomeCard("View Notifications", "src/assets/notification_icon.png", "#FF6531", "View Alerts");
-        notificationsCard.setOnMouseClicked(event -> {
-            FXMLUtils.showAlert(Alert.AlertType.INFORMATION, "Informasi", "Fitur Belum Tersedia", "Fitur Notifikasi sedang dalam pengembangan.");
-        }); 
+        VBox notificationsCard = createWelcomeCard("View Notifications", "/src/assets/notification_icon.png", "#FF6531", "View Alerts");
+        notificationsCard.setOnMouseClicked(event -> handleViewNotifications());
         
-        cardsHBox.getChildren().addAll(pharmacyCard, notificationsCard);
-        dashboardCardsContainer.getChildren().add(cardsHBox);
+        topCardsHBox.getChildren().addAll(pharmacyCard, notificationsCard);
+
+        VBox bottomContentVBox = new VBox(20.0);
+        bottomContentVBox.setPadding(new Insets(20));
+        VBox.setVgrow(bottomContentVBox, Priority.ALWAYS);
+
+        Label dataAnalyticsTitle = new Label("Data Analytics");
+        dataAnalyticsTitle.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #333333;");
+        
+        VBox analyticsContent = new VBox(10);
+        analyticsContent.setStyle("-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15;");
+        analyticsContent.getChildren().addAll(
+            new Label("Total Drugs in Stock: 6420/10000"), 
+            new Label("Prescriptions to process: 5 [view details]"),
+            new Label("Low stock alert: 3 [view details]"),
+            new Label("Expiring soon: 2 [view details]")
+        );
+
+        Label recentActivitiesTitle = new Label("Recent Activities");
+        recentActivitiesTitle.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #333333;");
+
+        VBox activitiesContent = new VBox(5);
+        activitiesContent.setStyle("-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15;");
+        activitiesContent.getChildren().addAll(
+            new Label("Received prescription for doctor hansjoseph Yesterday 20:46:42"),
+            new Label("Issued Amoxicillin to Jane Smith Yesterday 20:51:27"),
+            new Label("Received: 125 from apothecary stevaneiner 10:45"),
+            new Label("Received alert: low stock on penicillin 11:02")
+        );
+
+        bottomContentVBox.getChildren().addAll(
+            dataAnalyticsTitle, analyticsContent,
+            recentActivitiesTitle, activitiesContent
+        );
+
+        dashboardCardsContainer.getChildren().addAll(topCardsHBox, bottomContentVBox);
 
         Stage stage = (Stage) contentArea.getScene().getWindow();
         if (stage != null) {
@@ -167,9 +216,9 @@ public class ApothecaryDashboardController {
         
         actionButton.setOnAction(event -> {
             if ("Manage Prescriptions".equals(buttonText)) {
-                handlePharmacyManagement(); 
+                FXMLUtils.showAlert(Alert.AlertType.INFORMATION, "Informasi", "Fitur Belum Tersedia", "Manajemen Resep sedang dalam pengembangan.");
             } else if ("View Alerts".equals(buttonText)) {
-                FXMLUtils.showAlert(Alert.AlertType.INFORMATION, "Informasi", "Fitur Belum Tersedia", "Fitur Notifikasi sedang dalam pengembangan.");
+                handleViewNotifications(); 
             }
         });
 
@@ -178,10 +227,9 @@ public class ApothecaryDashboardController {
     }
 
     @FXML
-    private void handlePharmacyManagement() {
+    private void handlePharmacyManagement(ActionEvent event) { 
         setActiveButton(pharmacyManagementButton);
-        showApothecaryWelcomeView(); 
-        FXMLUtils.showAlert(Alert.AlertType.INFORMATION, "Informasi", "Fitur Belum Tersedia", "Manajemen Farmasi sedang dalam pengembangan.");
+        showApothecaryWelcomeView();
     }
 
     @FXML
@@ -195,6 +243,150 @@ public class ApothecaryDashboardController {
         setActiveButton(accountButton);
         loadPageIntoContainer("/src/views/AccountPage.fxml", "Akun Saya");
     }
+
+    @FXML
+    private void handleViewNotifications() {
+        if (notificationController.getCurrentNotifications().isEmpty()) {
+            notificationController.discoverNewNotifications();
+        }
+   
+        currentDisplayedNotifications = FXCollections.observableArrayList();
+        applyNotificationFilter("All");
+
+        Pane overlayBackground = new Pane();
+        overlayBackground.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);"); 
+        overlayBackground.setPrefSize(rootStackPane.getWidth(), rootStackPane.getHeight());
+        
+        VBox notificationModal = new VBox(15.0);
+        notificationModal.setAlignment(Pos.TOP_CENTER);
+        notificationModal.setPadding(new Insets(20));
+        notificationModal.setStyle("-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.0, 0, 0);");
+        notificationModal.setMaxWidth(800); 
+        notificationModal.setMaxHeight(500); 
+
+        Label titleLabel = new Label("Peringatan & Notifikasi");
+        titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #333333;");
+
+        HBox filterBox = new HBox(10);
+        filterBox.setAlignment(Pos.CENTER_LEFT);
+        filterBox.setPadding(new Insets(0, 0, 10, 0)); 
+
+        Label filterLabel = new Label("Filter by:");
+        ComboBox<String> filterComboBox = new ComboBox<>();
+        filterComboBox.getItems().addAll("All", "Low Stock", "Expiring Soon", "Last 7 Days");
+        filterComboBox.setValue("All"); 
+
+        filterComboBox.setOnAction(e -> applyNotificationFilter(filterComboBox.getValue()));
+        filterBox.getChildren().addAll(filterLabel, filterComboBox);
+
+        ListView<Notification> notificationListView = new ListView<>(currentDisplayedNotifications); 
+        notificationListView.setPrefHeight(300); 
+        notificationListView.setCellFactory(new Callback<ListView<Notification>, ListCell<Notification>>() {
+            @Override
+            public ListCell<Notification> call(ListView<Notification> listView) {
+                return new ListCell<Notification>() {
+                    private final HBox hbox = new HBox(10);
+                    private final Label messageLabel = new Label();
+                    private final Button deleteButton = new Button("X");
+
+                    {
+                        hbox.setAlignment(Pos.CENTER_LEFT);
+                        hbox.setPadding(new Insets(5, 0, 5, 0));
+                        messageLabel.setWrapText(true); 
+                        messageLabel.setMaxWidth(notificationModal.getMaxWidth() - 150); 
+                        
+                        deleteButton.setStyle("-fx-background-color: #FF6B6B; -fx-text-fill: white; -fx-background-radius: 5; -fx-padding: 2 6; -fx-font-size: 10px;");
+                        deleteButton.setOnAction(event -> {
+                            Notification item = getItem();
+                            if (item != null) {
+                                notificationController.deleteNotification(item.getId()); 
+                                applyNotificationFilter(filterComboBox.getValue());
+                            }
+                        });
+                        HBox.setHgrow(messageLabel, Priority.ALWAYS); 
+                        hbox.getChildren().addAll(messageLabel, deleteButton);
+                    }
+
+                    @Override
+                    protected void updateItem(Notification item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setGraphic(null);
+                            setText(null);
+                        } else {
+                            if (item.getId().equals("NO_NOTIF")) { 
+                                messageLabel.setText(item.getMessage());
+                                deleteButton.setVisible(false); 
+                            } else {
+                                messageLabel.setText(item.getMessage());
+                                deleteButton.setVisible(true);
+                            }
+                            setGraphic(hbox);
+                        }
+                    }
+                };
+            }
+        });
+
+
+        Button closeButton = new Button("Tutup");
+        closeButton.setStyle("-fx-background-color: #503E9D; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 8 20;");
+        closeButton.setOnAction(event -> {
+            rootStackPane.getChildren().remove(overlayBackground);
+            rootStackPane.getChildren().remove(notificationModal);
+        });
+
+        Button clearAllButton = new Button("Clear All"); 
+        clearAllButton.setStyle("-fx-background-color: #FF6B6B; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 8 20;");
+        clearAllButton.setOnAction(event -> {
+            notificationController.clearAllNotifications();
+            applyNotificationFilter("All"); 
+            FXMLUtils.showAlert(Alert.AlertType.INFORMATION, "Notifikasi", "Semua notifikasi telah dihapus.", "Daftar notifikasi kosong.");
+        });
+
+        HBox buttonBox = new HBox(10);
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.getChildren().addAll(closeButton, clearAllButton);
+
+        notificationModal.getChildren().addAll(titleLabel, filterBox, notificationListView, buttonBox);
+
+        rootStackPane.getChildren().addAll(overlayBackground, notificationModal);
+
+        StackPane.setAlignment(notificationModal, Pos.CENTER);
+    }
+
+    private void applyNotificationFilter(String filterType) {
+        currentDisplayedNotifications.clear();
+        Date now = new Date();
+        long sevenDaysMillis = TimeUnit.DAYS.toMillis(7);
+
+        List<Notification> rawNotifications = notificationController.getCurrentNotifications();
+        List<Notification> tempFilteredList = rawNotifications.stream() 
+            .filter(notif -> {
+                switch (filterType) {
+                    case "Low Stock":
+                        return "LOW_STOCK".equals(notif.getType());
+                    case "Expiring Soon":
+                        return "EXPIRY_WARNING".equals(notif.getType()); 
+                    case "Last 7 Days":
+                        return notif.getDate().after(new Date(now.getTime() - sevenDaysMillis)) && notif.getDate().before(new Date(now.getTime() + TimeUnit.SECONDS.toMillis(1)));
+                    case "All":
+                    default:
+                        return true;
+                }
+            })
+            .collect(Collectors.toList());
+        
+        if (tempFilteredList.isEmpty()) {
+            if (currentDisplayedNotifications.stream().noneMatch(n -> n.getId().equals("NO_NOTIF"))) {
+                currentDisplayedNotifications.add(new Notification("NO_NOTIF", "Tidak ada notifikasi yang cocok dengan filter ini.", new Date(), "INFO"));
+            }
+        } else {
+            currentDisplayedNotifications.removeIf(n -> n.getId().equals("NO_NOTIF"));
+            currentDisplayedNotifications.addAll(tempFilteredList);
+        }
+    }
+
 
     @FXML
     private void handleLogout(ActionEvent event) {
