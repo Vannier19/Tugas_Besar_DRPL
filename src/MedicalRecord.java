@@ -1,13 +1,14 @@
 package src;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class MedicalRecord {
     private String id;
     private String patientId;
     private String diagnosis;
     private Date date;
-
+    
     public MedicalRecord(String id, String patientId, String diagnosis, Date date) {
         if (id == null || id.isEmpty() || patientId == null || patientId.isEmpty() || diagnosis == null || diagnosis.isEmpty() || date == null) {
             throw new IllegalArgumentException("ID, Patient ID, diagnosis, dan date tidak boleh kosong.");

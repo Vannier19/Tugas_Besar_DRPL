@@ -30,4 +30,5 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+    // java --module-path "C:JavaFX/javafx-sdk-24.0.1/lib" --add-modules javafx.controls,javafx.fxml src/Main.java
 }
