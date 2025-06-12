@@ -25,6 +25,7 @@
                      <children>
                         <Button fx:id="myAppointmentsButton" onAction="#handleMyAppointment" styleClass="sidebar-button" text="My Appointments" />
                         <Button fx:id="patientMedicalRecordButton" onAction="#handlePatientMedicalRecord" styleClass="sidebar-button" text="Patient Medical Records" />
+                        <Button fx:id="givePrescriptionButton" onAction="#handleGivePrescription" styleClass="sidebar-button" text="Give Prescription" />
                         <Button fx:id="accountButton" onAction="#handleAccount" styleClass="sidebar-button" text="Account" />
                      </children>
                   </VBox>

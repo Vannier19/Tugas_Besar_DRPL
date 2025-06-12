@@ -22,6 +22,7 @@ public class DoctorDashboardController {
     @FXML private VBox pageContainer;
     @FXML private Button myAppointmentsButton;
     @FXML private Button patientMedicalRecordButton;
+    @FXML private Button givePrescriptionButton;
     @FXML private Button accountButton;
     
     private Button activeButton;
@@ -45,6 +46,12 @@ public class DoctorDashboardController {
     void handlePatientMedicalRecord(ActionEvent event) {
         setActiveButton(patientMedicalRecordButton);
         loadPageIntoContainer("/src/views/PatientMedicalRecordPage.fxml");
+    }
+
+    @FXML
+    void handleGivePrescription(ActionEvent event) {
+        setActiveButton(givePrescriptionButton);
+        loadPageIntoContainer("/src/views/GivePrescriptionPage.fxml");
     }
 
     @FXML
