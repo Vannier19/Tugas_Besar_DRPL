@@ -72,3 +72,20 @@
     -fx-cursor: hand;
     -fx-alignment: center;
 }
+.update-button {
+    -fx-background-color: #3498db; /* Biru */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 8px 15px;
+    -fx-cursor: hand;
+}
+
+.delete-button {
+    -fx-background-color: #e74c3c; /* Merah (sedikit beda dari discard) */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 8px 15px;
+    -fx-cursor: hand;
+}

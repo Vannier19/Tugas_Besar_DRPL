@@ -20,14 +20,12 @@
    <children>
       <Label styleClass="page-title" text="User Management" />
       
-      <!-- Add User Section -->
       <TitledPane fx:id="addUserPane" animated="true" expanded="true" styleClass="titled-pane-card" text="Add User">
          <content>
             <AnchorPane>
                <children>
                   <VBox spacing="15.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                      <children>
-                        <!-- Form Disederhanakan Menjadi VBox -->
                         <VBox spacing="10.0">
                            <children>
                               <Label text="Username" />
@@ -40,8 +38,8 @@
                         </VBox>
                         <HBox alignment="CENTER_LEFT" spacing="10.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#handleAddUser" styleClass="add-button" text="Add" />
-                              <Button mnemonicParsing="false" onAction="#handleClearForm" styleClass="discard-button" text="Discard" />
+                              <Button onAction="#handleAddUser" styleClass="add-button" text="Add User" />
+                              <Button onAction="#handleClearForm" styleClass="discard-button" text="Clear Form" />
                            </children>
                         </HBox>
                      </children>
@@ -51,20 +49,25 @@
          </content>
       </TitledPane>
       
-      <!-- Manage Users Section -->
       <TitledPane fx:id="manageUsersPane" animated="true" styleClass="titled-pane-card" text="Manage Users" VBox.vgrow="ALWAYS">
          <content>
-            <AnchorPane>
+            <VBox spacing="10.0" style="-fx-padding: 10;">
                <children>
-                  <TableView fx:id="userTable" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                  <TableView fx:id="userTable" VBox.vgrow="ALWAYS">
                     <columns>
                       <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
                       <TableColumn fx:id="usernameColumn" prefWidth="150.0" text="Username" />
                       <TableColumn fx:id="roleColumn" prefWidth="120.0" text="Role" />
                     </columns>
                   </TableView>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Button onAction="#handleUpdateUser" styleClass="add-button" text="Update Selected User" />
+                        <Button onAction="#handleDeleteUser" styleClass="discard-button" text="Delete Selected User" />
+                     </children>
+                  </HBox>
                </children>
-            </AnchorPane>
+            </VBox>
          </content>
       </TitledPane>
    </children>
