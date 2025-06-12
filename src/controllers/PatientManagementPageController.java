@@ -41,7 +41,6 @@ public class PatientManagementPageController {
         managePatientsPane.setExpanded(false);
         addPatientPane.setExpanded(false);
 
-        // Set up table columns to bind to Patient properties
         patientIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         patientNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         patientAgeColumn.setCellValueFactory(new PropertyValueFactory<>("age"));

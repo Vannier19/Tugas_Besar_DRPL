@@ -84,8 +84,6 @@ public class ApothecaryDashboardController {
                 loggedInUserLabel.setText("Guest!");
                 roleText.setText("Not logged in");
             }
-            // Discover notifications once when dashboard initializes
-            // This will populate the static persistentNotifications map
             notificationController.discoverNewNotifications(); 
             showApothecaryWelcomeView(); 
         });

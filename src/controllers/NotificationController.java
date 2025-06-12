@@ -20,8 +20,8 @@ public class NotificationController {
     private MedicineFactory medicineFactory;
     private static Map<String, Notification> persistentNotifications = new HashMap<>(); 
     
-    private static Map<String, Long> dismissedNotifications = new HashMap<>(); // Key: unique identifier, Value: dismissal timestamp
-    private static final long DISMISSAL_COOLDOWN_MILLIS = TimeUnit.HOURS.toMillis(1); // Don't recreate dismissed notifications for 1 hour
+    private static Map<String, Long> dismissedNotifications = new HashMap<>();
+    private static final long DISMISSAL_COOLDOWN_MILLIS = TimeUnit.HOURS.toMillis(1);
 
     public NotificationController() {
         this.medicineFactory = new MedicineFactory();
