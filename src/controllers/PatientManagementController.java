@@ -3,8 +3,6 @@ import src.Patient;
 import src.PatientService;
 
 import java.util.List;
-
-// This controller will now be the bridge between the UI and the PatientService
 public class PatientManagementController {
     private PatientService patientService;
 
@@ -17,7 +15,6 @@ public class PatientManagementController {
     }
 
     public String addNewPatient(String name, int age) {
-        // Basic validation for new patient
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Nama pasien tidak boleh kosong!");
         }
@@ -35,7 +32,6 @@ public class PatientManagementController {
     }
 
     public String updateExistingPatient(String id, String name, int age) {
-        // Basic validation for update
         if (id == null || id.isEmpty()) {
             throw new IllegalArgumentException("ID pasien tidak boleh kosong!");
         }

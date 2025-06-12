@@ -90,8 +90,8 @@ public class ApothecaryDashboardController {
                 loggedInUserLabel.setText("Guest!");
                 roleText.setText("Not logged in");
             }
-            notificationController.discoverNewNotifications();
-            showApothecaryWelcomeView();
+            notificationController.discoverNewNotifications(); 
+            showApothecaryWelcomeView(); 
         });
     }
 

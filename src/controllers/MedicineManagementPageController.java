@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class MedicineManagementPageController {
-    // View Inventory Section
+
     @FXML private TableView<Medicine> inventoryTable;
     @FXML private TableColumn<Medicine, String> idColumn;
     @FXML private TableColumn<Medicine, String> nameColumn;
@@ -38,7 +38,6 @@ public class MedicineManagementPageController {
     @FXML private TableColumn<Medicine, Date> expiryDateColumn;
     @FXML private TableColumn<Medicine, String> supplierColumn; 
 
-    // Add New Drug Section
     @FXML private TitledPane addDrugPane;
     @FXML private TextField newDrugNameField;
     @FXML private TextField newDrugQuantityField;
@@ -46,7 +45,6 @@ public class MedicineManagementPageController {
     @FXML private DatePicker newDrugExpiryDatePicker;
     @FXML private TextField newDrugSupplierField;
 
-    // Record Drug Exit Section
     @FXML private TitledPane recordDrugExitPane;
     @FXML private TextField exitDrugNameField;
     @FXML private TextField exitQuantityIssuedField;
@@ -114,7 +112,7 @@ public class MedicineManagementPageController {
         medicineFactory.removeExpiredMedicines();
         medicineList.clear();
         medicineList.addAll(medicineFactory.getAllMedicines().stream()
-                            .sorted(Comparator.comparing(Medicine::getExpiryDate) // Earliest expiry first
+                            .sorted(Comparator.comparing(Medicine::getExpiryDate)
                                       .thenComparing(Medicine::getName))
                             .collect(Collectors.toList()));
         inventoryTable.setItems(medicineList);
