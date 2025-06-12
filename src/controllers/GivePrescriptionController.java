@@ -1,33 +1,35 @@
 package src.controllers;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.time.LocalDateTime;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import src.*;
 import src.utils.FXMLUtils;
 import src.utils.SessionManager;
 
 public class GivePrescriptionController {
 
-    @FXML private ComboBox<Patient> patientComboBox;
+    // ComboBox pasien diganti menjadi Label
+    @FXML private Label currentPatientLabel;
+    @FXML private VBox prescriptionFormContainer;
     @FXML private ComboBox<Medicine> medicineComboBox;
     @FXML private TextField dosageField;
     @FXML private TextField quantityField;
     @FXML private TextArea notesTextArea;
-    @FXML private Button submitPrescriptionButton;
 
     private User loggedInDoctor;
     private AppointmentFactory appointmentFactory;
     private PatientFactory patientFactory;
     private MedicineFactory medicineFactory;
     private PrescriptionFactory prescriptionFactory;
+    private Patient activePatient;
 
     @FXML
     public void initialize() {
@@ -37,21 +39,27 @@ public class GivePrescriptionController {
         this.medicineFactory = new MedicineFactory();
         this.prescriptionFactory = new PrescriptionFactory();
 
-        loadPatients();
+        loadCurrentPatient();
         loadMedicines();
     }
 
-    private void loadPatients() {
+    private void loadCurrentPatient() {
         if (loggedInDoctor == null) return;
-        List<String> patientIds = appointmentFactory.getAllAppointments().stream()
-                .filter(app -> app.getDoctorId().equals(loggedInDoctor.getId()))
-                .map(Appointment::getPatientId)
-                .distinct()
-                .collect(Collectors.toList());
-        List<Patient> doctorPatients = patientIds.stream()
-                .map(id -> patientFactory.getPatientById(id))
-                .collect(Collectors.toList());
-        patientComboBox.setItems(FXCollections.observableArrayList(doctorPatients));
+
+        LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
+        Appointment currentAppointment = appointmentFactory.getAppointmentAt(now);
+
+        if (currentAppointment != null && currentAppointment.getDoctorId().equals(loggedInDoctor.getId())) {
+            Patient currentPatient = patientFactory.getPatientById(currentAppointment.getPatientId());
+            if (currentPatient != null) {
+                this.activePatient = currentPatient;
+                currentPatientLabel.setText(currentPatient.toString());
+                prescriptionFormContainer.setDisable(false);
+            }
+        } else {
+            currentPatientLabel.setText("Tidak ada pasien dengan jadwal saat ini.");
+            prescriptionFormContainer.setDisable(true);
+        }
     }
 
     private void loadMedicines() {
@@ -60,21 +68,22 @@ public class GivePrescriptionController {
 
     @FXML
     void handleSubmitPrescription(ActionEvent event) {
-        Patient selectedPatient = patientComboBox.getValue();
         Medicine selectedMedicine = medicineComboBox.getValue();
         String dosage = dosageField.getText().trim();
         String quantity = quantityField.getText().trim();
+        if (activePatient == null) {
+            FXMLUtils.showAlert(javafx.scene.control.Alert.AlertType.WARNING, "Peringatan", "Tidak Ada Pasien Aktif", "Tidak dapat membuat resep karena tidak ada pasien yang memiliki jadwal saat ini.");
+            return;
+        }
 
-        if (selectedPatient == null || selectedMedicine == null || dosage.isEmpty() || quantity.isEmpty()) {
-            FXMLUtils.showAlert(javafx.scene.control.Alert.AlertType.ERROR, "Error", "Input Tidak Lengkap", "Harap pilih pasien, obat, serta isi dosis dan kuantitas.");
+        if (selectedMedicine == null || dosage.isEmpty() || quantity.isEmpty()) {
+            FXMLUtils.showAlert(javafx.scene.control.Alert.AlertType.ERROR, "Error", "Input Tidak Lengkap", "Harap pilih obat, serta isi dosis dan kuantitas.");
             return;
         }
 
         try {
-            // Memanggil factory untuk menambahkan resep.
-            // Factory yang akan mengurus pembuatan ID dan objek.
             prescriptionFactory.addPrescription(
-                selectedPatient.getId(),
+                activePatient.getId(),
                 loggedInDoctor.getId(),
                 selectedMedicine.getName(),
                 dosage,
@@ -91,7 +100,6 @@ public class GivePrescriptionController {
     }
 
     private void clearForm() {
-        patientComboBox.getSelectionModel().clearSelection();
         medicineComboBox.getSelectionModel().clearSelection();
         dosageField.clear();
         quantityField.clear();
