@@ -6,8 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane; 
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
+import javafx.scene.text.Text; 
 import javafx.stage.Stage;
 import javafx.scene.layout.Region; 
 import javafx.scene.layout.Priority; 
@@ -19,23 +20,22 @@ import src.utils.SessionManager;
 import java.io.IOException;
 
 public class DashboardController {
-
     @FXML private Label loggedInUserLabel;
     @FXML private Button patientManagementButton;
     @FXML private Button medicineManagementButton;
     @FXML private Button schedulingButton;
-    @FXML private Button userManagementButton;
     @FXML private Button accountButton; 
     @FXML private VBox contentArea;
-    @FXML private Text welcomeText;
-    @FXML private Text roleText;
+    @FXML private Text welcomeText; 
+    @FXML private Text roleText; 
+    @FXML private BorderPane rootBorderPane;
 
     @FXML
     public void initialize() {
         User currentUser = SessionManager.getCurrentUser();
         if (currentUser != null) {
-            loggedInUserLabel.setText("Logged in as: " + currentUser.getUsername() + " (" + currentUser.getRole() + ")");
-            welcomeText.setText("Selamat Datang, " + currentUser.getUsername() + "!");
+            loggedInUserLabel.setText(currentUser.getUsername() + " (" + currentUser.getRole() + ")");
+            welcomeText.setText("Selamat Datang di Sistem Manajemen Klinik Sehat Medika!");
             roleText.setText("Anda login sebagai: " + currentUser.getRole());
             updateMenuVisibility(currentUser.getRole());
         } else {
@@ -45,7 +45,6 @@ public class DashboardController {
             patientManagementButton.setVisible(false);
             medicineManagementButton.setVisible(false);
             schedulingButton.setVisible(false);
-            userManagementButton.setVisible(false);
             accountButton.setVisible(false); 
         }
     }
@@ -54,8 +53,7 @@ public class DashboardController {
         patientManagementButton.setVisible(false);
         medicineManagementButton.setVisible(false);
         schedulingButton.setVisible(false);
-        userManagementButton.setVisible(false);
-        accountButton.setVisible(true); 
+        accountButton.setVisible(true);
 
         switch (role) {
             case "Dokter":
@@ -63,10 +61,6 @@ public class DashboardController {
                 medicineManagementButton.setVisible(true); 
                 schedulingButton.setVisible(true);
                 loadContent("/src/views/PatientManagementPage.fxml", "Manajemen Pasien"); 
-                break;
-            case "Apoteker":
-                medicineManagementButton.setVisible(true); 
-                loadContent("/src/views/MedicineManagementPage.fxml", "Manajemen Obat");
                 break;
             case "Administrator":
                 schedulingButton.setVisible(true);
@@ -77,6 +71,7 @@ public class DashboardController {
         }
     }
 
+    // Handlers for sidebar buttons
     @FXML
     private void handlePatientManagement() {
         loadContent("/src/views/PatientManagementPage.fxml", "Manajemen Pasien");
@@ -93,11 +88,6 @@ public class DashboardController {
     }
 
     @FXML
-    private void handleUserManagement() {
-        loadContent("/src/views/UserManagementPage.fxml", "Manajemen Pengguna");
-    }
-
-    @FXML
     private void handleAccount() {
         loadContent("/src/views/AccountPage.fxml", "Akun Saya");
     }
@@ -106,18 +96,19 @@ public class DashboardController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent content = loader.load();
-
+            rootBorderPane.setCenter(content);
+            welcomeText.setVisible(false);
+            roleText.setVisible(false);
+         
             if (content instanceof Region) {
                 Region contentRegion = (Region) content;
-                contentRegion.prefWidthProperty().bind(contentArea.widthProperty());
-                contentRegion.prefHeightProperty().bind(contentArea.heightProperty());
-                VBox.setVgrow(contentRegion, Priority.ALWAYS);
+                contentRegion.prefWidthProperty().bind(rootBorderPane.widthProperty().subtract(rootBorderPane.getLeft().prefWidth(-1))); // Subtract sidebar width
+                contentRegion.prefHeightProperty().bind(rootBorderPane.heightProperty().subtract(rootBorderPane.getTop().prefHeight(-1))); // Subtract top bar height
             } else {
-                System.err.println("Peringatan: Root FXML yang dimuat bukan Region dan tidak dapat diubah ukurannya secara dinamis.");
+                System.err.println("Peringatan: Root FXML yang dimuat bukan Region dan mungkin tidak akan menyesuaikan ukuran secara dinamis.");
             }
-
-            contentArea.getChildren().setAll(content);
-            Stage stage = (Stage) contentArea.getScene().getWindow();
+            
+            Stage stage = (Stage) rootBorderPane.getScene().getWindow(); 
             stage.setTitle("Sistem Manajemen Klinik Sehat Medika - " + title);
         } catch (IOException e) {
             e.printStackTrace();
@@ -132,14 +123,14 @@ public class DashboardController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/views/LoginPage.fxml"));
             Parent loginPage = loader.load();
 
-            Stage stage = (Stage) loggedInUserLabel.getScene().getWindow(); 
+            Stage stage = (Stage) rootBorderPane.getScene().getWindow(); 
             Scene loginScene = new Scene(loginPage); 
             
             stage.setScene(loginScene);
             stage.setWidth(1280);    
             stage.setHeight(720);   
             stage.setResizable(false); 
-            stage.centerOnScreen();
+            stage.centerOnScreen(); 
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
