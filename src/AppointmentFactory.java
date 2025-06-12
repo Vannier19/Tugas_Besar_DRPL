@@ -52,4 +52,17 @@ public class AppointmentFactory {
     public Appointment getAppointmentById(String id) {
         return appointments.get(id);
     }
+
+    public void deleteAppointment(String appointmentId) {
+        appointments.remove(appointmentId);
+    }
+
+    public void updateAppointment(String appointmentId, LocalDateTime newDateTime) {
+        Appointment appointmentToUpdate = appointments.get(appointmentId);
+        if (appointmentToUpdate != null) {
+            appointmentToUpdate.setAppointmentDate(newDateTime);
+        }
+    }
+
+
 }
