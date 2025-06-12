@@ -20,7 +20,6 @@
             <children>
                 <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <!-- Ganti dengan path logo yang benar -->
                         <Image url="src/assets/logo.png" />
                      </image>
                   </ImageView>

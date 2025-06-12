@@ -49,16 +49,14 @@ public class AdminDashboardController {
 
     @FXML
     void handleDeleteAppointment(ActionEvent event) {
-        // setActiveButton(deleteAppointmentButton);
-        // loadPageIntoContainer("/src/views/DeleteAppointmentPage.fxml"); // TODO: Create this FXML
-        FXMLUtils.showAlert(javafx.scene.control.Alert.AlertType.INFORMATION, "Info", "In Development", "Delete Appointment page is not yet implemented.");
+        setActiveButton(deleteAppointmentButton);
+        loadPageIntoContainer("/src/views/DeleteAppointmentPage.fxml");
     }
     
     @FXML
     void handleUpdateAppointment(ActionEvent event) {
-        // setActiveButton(updateAppointmentButton);
-        // loadPageIntoContainer("/src/views/UpdateAppointmentPage.fxml"); // TODO: Create this FXML
-        FXMLUtils.showAlert(javafx.scene.control.Alert.AlertType.INFORMATION, "Info", "In Development", "Update Appointment page is not yet implemented.");
+        setActiveButton(updateAppointmentButton);
+        loadPageIntoContainer("/src/views/UpdateAppointmentPage.fxml");
     }
     
     @FXML
