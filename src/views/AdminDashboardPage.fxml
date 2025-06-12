@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="root" stylesheets="@dashboard-style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.controllers.AdminDashboardController">
+    <left>
+        <VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="280.0" spacing="100.0" styleClass="sidebar" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets top="20.0" />
+            </padding>
+            <children>
+                <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <!-- Ganti dengan path logo yang benar -->
+                        <Image url="src/assets/logo.png" />
+                     </image>
+                  </ImageView>
+                <VBox spacing="20.0" VBox.vgrow="ALWAYS">
+                    <children>
+                        <Button fx:id="viewAppointmentButton" mnemonicParsing="false" onAction="#handleViewAppointment" styleClass="sidebar-button" text="View Appointments" />
+                        <Button fx:id="addAppointmentButton" mnemonicParsing="false" onAction="#handleAddAppointment" styleClass="sidebar-button" text="Add Appointment" />
+                        <Button fx:id="deleteAppointmentButton" mnemonicParsing="false" onAction="#handleDeleteAppointment" styleClass="sidebar-button" text="Delete Appointment" />
+                        <Button fx:id="updateAppointmentButton" mnemonicParsing="false" onAction="#handleUpdateAppointment" styleClass="sidebar-button" text="Update Appointment" />
+                        <Button fx:id="accountButton" mnemonicParsing="false" onAction="#handleAccount" styleClass="sidebar-button" text="Account" />
+                    </children>
+                </VBox>
+                <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="src/assets/logo.png" />
+                     </image>
+                  </ImageView>
+            </children>
+        </VBox>
+    </left>
+    <center>
+        <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <children>
+                <HBox alignment="CENTER_LEFT" prefHeight="80.0" prefWidth="200.0" spacing="20.0">
+                    <padding>
+                        <Insets left="20.0" right="20.0" />
+                    </padding>
+                    <children>
+                        <Label styleClass="welcome-text-regular" text="Welcome," />
+                        <Label fx:id="userInfoText" styleClass="welcome-text-highlight">
+                            <font>
+                                <Font size="24.0" />
+                            </font>
+                        </Label>
+                        <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                        </HBox>
+                    </children>
+                </HBox>
+                <VBox fx:id="pageContainer" VBox.vgrow="ALWAYS" />
+            </children>
+        </VBox>
+    </center>
+</BorderPane>

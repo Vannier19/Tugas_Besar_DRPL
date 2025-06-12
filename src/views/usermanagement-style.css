@@ -33,9 +33,9 @@
     -fx-font-weight: 500;
     -fx-text-fill: #555555;
 }
-.text-field, .password-field, .date-picker, .combo-box {
+.text-field, .password-field, .date-picker, .combo-box, .timeComboBox {
     -fx-pref-height: 40px;
-    -fx-background-color: #F4F7FC;
+    -fx-background-color: #ffffff;
     -fx-border-color: #E0E0E0;
     -fx-border-radius: 8;
     -fx-background-radius: 8;
@@ -88,4 +88,10 @@
     -fx-background-radius: 8;
     -fx-padding: 8px 15px;
     -fx-cursor: hand;
+}
+
+.form-card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 25;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 25, 0.0, 0, 10);
 }
