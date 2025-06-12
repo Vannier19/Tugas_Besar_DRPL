@@ -19,7 +19,7 @@
     <left>
         <VBox alignment="TOP_LEFT" spacing="10" style="-fx-background-color: #34495e; -fx-padding: 20; -fx-border-width: 0 1 0 0; -fx-border-color: #2c3e50;">
             <Button fx:id="patientManagementButton" onAction="#handlePatientManagement" text="Manajemen Pasien" prefWidth="200" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 5;" />
-            <Button fx:id="medicineManagementButton" onAction="#handleMedicineManagement" text="Manajemen Obat" prefWidth="200" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 5;" />
+            <Button fx:id="medicineManagementButton" onAction="#handleMedicineManagement" text="Inventory Management" prefWidth="200" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 5;" />
             <Button fx:id="schedulingButton" onAction="#handleScheduling" text="Penjadwalan" prefWidth="200" style="-fx-background-color: #f1c40f; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 5;" />
             <Button fx:id="userManagementButton" onAction="#handleUserManagement" text="Manajemen Pengguna" prefWidth="200" style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 5;" />
         </VBox>
