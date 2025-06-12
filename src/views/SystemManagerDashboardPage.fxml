@@ -50,7 +50,7 @@
                         <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                            <children>
                               <Label styleClass="welcome-text-regular" text="Welcome, " />
-                              <Label fx:id="userInfoText" styleClass="welcome-text-highlight" text="System Manager" />
+                              <Label fx:id="userInfoText" styleClass="welcome-text-highlight"/>
                            </children>
                         </HBox>
                      </children>
@@ -58,8 +58,6 @@
                         <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                      </padding>
                   </HBox>
-                  
-                  <!-- Area untuk memuat FXML halaman (User/Patient Management) -->
                   <VBox fx:id="pageContainer" styleClass="page-container" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>

@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -11,10 +10,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox spacing="20.0" stylesheets="@usermanagement-style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.controllers.UserManagementPageController">
@@ -25,61 +21,23 @@
       <Label styleClass="page-title" text="User Management" />
       
       <!-- Add User Section -->
-      <TitledPane animated="true" expanded="true" styleClass="titled-pane-card" text="Add User">
+      <TitledPane fx:id="addUserPane" animated="true" expanded="true" styleClass="titled-pane-card" text="Add User">
          <content>
             <AnchorPane>
                <children>
                   <VBox spacing="15.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                      <children>
-                        <GridPane hgap="20.0" vgap="15.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
+                        <!-- Form Disederhanakan Menjadi VBox -->
+                        <VBox spacing="10.0">
                            <children>
-                              <VBox>
-                                 <children>
-                                    <Label text="Username" />
-                                    <TextField fx:id="usernameField" promptText="Enter username" />
-                                 </children>
-                              </VBox>
-                              <VBox GridPane.columnIndex="1">
-                                 <children>
-                                    <Label text="Password" />
-                                    <PasswordField fx:id="passwordField" promptText="password must contain 8-12 characters..." />
-                                 </children>
-                              </VBox>
-                              <VBox GridPane.rowIndex="1">
-                                 <children>
-                                    <Label text="Email Address" />
-                                    <TextField fx:id="emailField" promptText="Enter email address" />
-                                 </children>
-                              </VBox>
-                              <VBox GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                 <children>
-                                    <Label text="Role" />
-                                    <ComboBox fx:id="roleComboBox" prefWidth="400.0" promptText="Select Role" />
-                                 </children>
-                              </VBox>
-                              <VBox GridPane.rowIndex="2">
-                                 <children>
-                                    <Label text="Date of Birth" />
-                                    <DatePicker fx:id="dobField" prefWidth="400.0" promptText="Select date"/>
-                                 </children>
-                              </VBox>
-                              <VBox GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                 <children>
-                                    <Label text="Phone Number" />
-                                    <TextField fx:id="phoneField" promptText="Enter phone number" />
-                                 </children>
-                              </VBox>
+                              <Label text="Username" />
+                              <TextField fx:id="usernameField" promptText="Enter username" />
+                              <Label text="Password" />
+                              <PasswordField fx:id="passwordField" promptText="Enter password" />
+                              <Label text="Role" />
+                              <ComboBox fx:id="roleComboBox" maxWidth="1.7976931348623157E308" promptText="Select Role" />
                            </children>
-                        </GridPane>
+                        </VBox>
                         <HBox alignment="CENTER_LEFT" spacing="10.0">
                            <children>
                               <Button mnemonicParsing="false" onAction="#handleAddUser" styleClass="add-button" text="Add" />
@@ -94,7 +52,7 @@
       </TitledPane>
       
       <!-- Manage Users Section -->
-      <TitledPane animated="true" styleClass="titled-pane-card" text="Manage Users" VBox.vgrow="ALWAYS">
+      <TitledPane fx:id="manageUsersPane" animated="true" styleClass="titled-pane-card" text="Manage Users" VBox.vgrow="ALWAYS">
          <content>
             <AnchorPane>
                <children>
@@ -103,13 +61,11 @@
                       <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
                       <TableColumn fx:id="usernameColumn" prefWidth="150.0" text="Username" />
                       <TableColumn fx:id="roleColumn" prefWidth="120.0" text="Role" />
-                      <TableColumn fx:id="emailColumn" prefWidth="200.0" text="Email" />
                     </columns>
                   </TableView>
                </children>
             </AnchorPane>
          </content>
       </TitledPane>
-      <!-- <Button mnemonicParsing="false" onAction="#handleBackToMainMenu" styleClass="back-button" text="Back to Main Menu" /> -->
    </children>
 </VBox>
