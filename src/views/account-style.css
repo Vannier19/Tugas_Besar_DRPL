@@ -1,0 +1,60 @@
+/* General styling for the page title */
+.page-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+/* Styling for a card-like container for forms */
+.form-card {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-color: #E0E0E0;
+    -fx-border-radius: 10;
+    -fx-padding: 15px;
+}
+
+/* Label styling */
+.label {
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-text-fill: #555555;
+}
+
+.user-id-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #007bff; /* A distinct color for the ID */
+    -fx-background-color: #e9f0fe;
+    -fx-padding: 5px 10px;
+    -fx-background-radius: 5px;
+}
+
+/* Text field and password field styling */
+.text-field, .password-field {
+    -fx-pref-height: 40px;
+    -fx-background-color: #F4F7FC;
+    -fx-border-color: #E0E0E0;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-font-size: 14px;
+}
+
+/* Button styling */
+.add-button { /* Reused for 'Update Profile' */
+    -fx-background-color: #00D2A3; /* Green */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 8px 25px;
+    -fx-cursor: hand;
+}
+
+.discard-button { /* Reused for 'Logout' */
+    -fx-background-color: #FF6B6B; /* Red */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 8px 20px;
+    -fx-cursor: hand;
+}
