@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -24,9 +25,20 @@
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
             </padding>
             <children>
-                <Label text="Pilih Pasien" />
-                <ComboBox fx:id="patientComboBox" prefWidth="600.0" promptText="Pilih pasien yang memiliki janji temu..." />
-                
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <children>
+                        <Label text="Pasien Saat Ini:" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
+                        <Label fx:id="currentPatientLabel" style="-fx-font-size: 14px;" text="Tidak ada pasien dengan jadwal saat ini..." />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+        
+        <VBox fx:id="prescriptionFormContainer" disable="true" maxWidth="600.0" spacing="15.0" styleClass="form-card">
+             <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+            <children>
                 <Label text="Pilih Obat" />
                 <ComboBox fx:id="medicineComboBox" prefWidth="600.0" promptText="Pilih obat yang tersedia..." />
                 
