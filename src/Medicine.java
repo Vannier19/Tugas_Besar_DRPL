@@ -51,7 +51,7 @@ public class Medicine {
 
     @Override
     public String toString() {
-        return String.format("'%s' '%s'}",
+        return String.format("'%s' '%s'",
                 id.get(), name.get());
     }
 }
