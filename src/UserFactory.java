@@ -13,7 +13,7 @@ public class UserFactory {
 
     static {
         users.put("U001", new User("U001", "Hans", "1", "Dokter"));
-        users.put("U002", new User("U002", "Stevan", "2", "Apoteker"));
+        users.put("U002", new User("U002", "Stevan", "2", "Apothecary"));
         users.put("U003", new User("U003", "Mike", "3", "System Manager"));
         users.put("U004", new User("U004", "Jacob", "4", "Administrator"));
     }

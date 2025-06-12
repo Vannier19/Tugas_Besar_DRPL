@@ -37,7 +37,7 @@ public class UserManagementPageController {
         userLogicController = new UserManagementController();
         userList = FXCollections.observableArrayList();
 
-        roleComboBox.getItems().addAll("Dokter", "Apoteker", "System Manager", "Administrator");
+        roleComboBox.getItems().addAll("Dokter", "Apothecary", "System Manager", "Administrator");
 
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
