@@ -7,14 +7,15 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
+import java.util.Optional;
 
 public class UserManagementPageController {
     
@@ -41,6 +42,8 @@ public class UserManagementPageController {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         roleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
+        manageUsersPane.setExpanded(false);
+        addUserPane.setExpanded(false);
         addUserPane.expandedProperty().addListener((observable, wasExpanded, isNowExpanded) -> {
             if (isNowExpanded) {
                 manageUsersPane.setExpanded(false);
@@ -110,5 +113,59 @@ public class UserManagementPageController {
         usernameField.clear();
         passwordField.clear();
         roleComboBox.getSelectionModel().clearSelection();
+    }
+
+    @FXML
+    private void handleUpdateUser(ActionEvent event) {
+        User selectedUser = userTable.getSelectionModel().getSelectedItem();
+        if (selectedUser == null) {
+            FXMLUtils.showAlert(Alert.AlertType.WARNING, "Peringatan", "Tidak Ada Pengguna Terpilih", "Silakan pilih pengguna dari tabel untuk diubah.");
+            return;
+        }
+
+        try {
+            String id = selectedUser.getId();
+            String newUsername = usernameField.getText().trim();
+            String newPassword = passwordField.getText().trim();
+            String newRole = roleComboBox.getValue();
+
+            String message = userLogicController.updateUser(id, newUsername, newPassword, newRole);
+            FXMLUtils.showAlert(Alert.AlertType.INFORMATION, "Sukses", "Update Berhasil", message);
+            
+            loadUserData();
+            clearForm();
+
+        } catch (Exception e) {
+            FXMLUtils.showAlert(Alert.AlertType.ERROR, "Error", "Update Gagal", e.getMessage());
+        }
+    }
+
+    @FXML
+    private void handleDeleteUser(ActionEvent event) {
+        User selectedUser = userTable.getSelectionModel().getSelectedItem();
+        if (selectedUser == null) {
+            FXMLUtils.showAlert(Alert.AlertType.WARNING, "Peringatan", "Tidak Ada Pengguna Terpilih", "Silakan pilih pengguna dari tabel untuk dihapus.");
+            return;
+        }
+
+        // Tampilkan dialog konfirmasi sebelum menghapus
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Konfirmasi Hapus");
+        confirmationAlert.setHeaderText("Hapus Pengguna: " + selectedUser.getUsername());
+        confirmationAlert.setContentText("Apakah Anda yakin ingin menghapus pengguna ini?");
+
+        Optional<ButtonType> result = confirmationAlert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                String message = userLogicController.deleteUser(selectedUser.getId());
+                FXMLUtils.showAlert(Alert.AlertType.INFORMATION, "Sukses", "Hapus Berhasil", message);
+                
+                loadUserData(); // Muat ulang data tabel
+                clearForm();    // Kosongkan form
+
+            } catch (Exception e) {
+                FXMLUtils.showAlert(Alert.AlertType.ERROR, "Error", "Hapus Gagal", e.getMessage());
+            }
+        }
     }
 }
