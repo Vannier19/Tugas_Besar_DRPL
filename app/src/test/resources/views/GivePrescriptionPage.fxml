@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" spacing="20.0" stylesheets="@usermanagement-style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.GivePrescriptionController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+    <children>
+        <Label styleClass="page-title" text="Write New Prescription">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Label>
+        <VBox maxWidth="600.0" spacing="15.0" styleClass="form-card">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+            <children>
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <children>
+                        <Label text="Pasien Saat Ini:" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
+                        <Label fx:id="currentPatientLabel" style="-fx-font-size: 14px;" text="Tidak ada pasien dengan jadwal saat ini..." />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+        
+        <VBox fx:id="prescriptionFormContainer" disable="true" maxWidth="600.0" spacing="15.0" styleClass="form-card">
+             <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+            <children>
+                <Label text="Pilih Obat" />
+                <ComboBox fx:id="medicineComboBox" prefWidth="600.0" promptText="Pilih obat yang tersedia..." />
+                
+                <Label text="Dosis" />
+                <TextField fx:id="dosageField" promptText="Contoh: 3x1 tablet sehari sesudah makan" />
+                
+                <Label text="Kuantitas" />
+                <TextField fx:id="quantityField" promptText="Contoh: 10 tablet / 1 botol" />
+                
+                <Label text="Catatan Tambahan (Opsional)" />
+                <TextArea fx:id="notesTextArea" prefHeight="80.0" promptText="Catatan tambahan untuk apoteker atau pasien..." wrapText="true" />
+                
+                <Button onAction="#handleSubmitPrescription" styleClass="add-button" text="Submit Prescription" />
+            </children>
+        </VBox>
+    </children>
+</VBox>

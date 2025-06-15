@@ -1,0 +1,35 @@
+// build.gradle
+
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+}
+
+group = 'com.womentcare'
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+javafx {
+    version = "17"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+dependencies {
+    // Dependensi untuk testing menggunakan JUnit 5
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+application {
+    mainClass = 'main.java.moduls.Main'
+}
+
+
+test {
+    // Menggunakan platform JUnit 5 untuk menjalankan tes
+    useJUnitPlatform()
+}

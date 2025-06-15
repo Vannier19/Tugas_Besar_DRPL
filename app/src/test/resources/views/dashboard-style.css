@@ -1,0 +1,72 @@
+/* === BACKGROUND UTAMA === */
+.root, .content-area {
+    -fx-background-color: #F4F7FC; /* Warna latar area konten */
+    -fx-font-family: 'Poppins';
+}
+
+/* === SIDEBAR === */
+.sidebar {
+    -fx-background-color: #503E9D;
+    -fx-padding: 20px;
+}
+
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: 500;
+    -fx-background-radius: 10;
+    -fx-pref-width: 240px;
+    -fx-padding: 12px 20px;
+    -fx-alignment: center-left;
+    -fx-graphic-text-gap: 15;
+    -fx-cursor: hand;
+}
+
+.sidebar-button:hover, .sidebar-button:focused {
+    -fx-background-color: white;
+    -fx-text-fill: #503E9D;
+}
+
+/* Style untuk tombol yang sedang aktif */
+.sidebar-button-active {
+    -fx-background-color: white;
+    -fx-text-fill: #503E9D;
+}
+
+.support-card {
+    -fx-background-color: #6A5ACD;
+    -fx-background-radius: 15;
+    -fx-padding: 15px;
+    -fx-alignment: center;
+}
+
+.start-button {
+    -fx-background-color: #F25019;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+
+/* === KONTEN UTAMA === */
+.welcome-text-regular {
+    -fx-font-size: 28px;
+    -fx-text-fill: #333333; /* Warna abu-abu gelap untuk teks "Welcome," */
+}
+
+.welcome-text-highlight {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FF6531; /* Warna oranye untuk nama dan role */
+}
+
+.logout-button {
+    -fx-background-color: #ff0000; /* Merah */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+    -fx-padding: 8px 15px;
+}
