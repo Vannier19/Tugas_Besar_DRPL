@@ -39,25 +39,25 @@ public class DoctorDashboardController {
     @FXML
     void handleMyAppointment(ActionEvent event) {
         setActiveButton(myAppointmentsButton);
-        loadPageIntoContainer("/src/views/MyAppointmentView.fxml");
+        loadPageIntoContainer("/views/MyAppointmentView.fxml");
     }
 
     @FXML
     void handlePatientMedicalRecord(ActionEvent event) {
         setActiveButton(patientMedicalRecordButton);
-        loadPageIntoContainer("/src/views/PatientMedicalRecordPage.fxml");
+        loadPageIntoContainer("/views/PatientMedicalRecordPage.fxml");
     }
 
     @FXML
     void handleGivePrescription(ActionEvent event) {
         setActiveButton(givePrescriptionButton);
-        loadPageIntoContainer("/src/views/GivePrescriptionPage.fxml");
+        loadPageIntoContainer("/views/GivePrescriptionPage.fxml");
     }
 
     @FXML
     void handleAccount(ActionEvent event) {
         setActiveButton(accountButton);
-        loadPageIntoContainer("/src/views/AccountPage.fxml");
+        loadPageIntoContainer("/views/AccountPage.fxml");
     }
 
     @FXML

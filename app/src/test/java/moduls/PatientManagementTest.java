@@ -5,8 +5,7 @@ import org.junit.jupiter.api.*;
 import main.java.controllers.*;
 import main.java.moduls.*;
 import main.java.utils.*;
-import main.resources.views.*;
-import main.resources.assets.*;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Pengujian Use Case Manajemen Data Pasien (UC-02)")
@@ -23,17 +22,18 @@ class PatientManagementTest {
     @DisplayName("[U-2-01] Skenario Normal: Menambah data pasien baru dengan data valid")
     void addPatient_Success() {
         assertDoesNotThrow(() -> {
-            controller.addPatient("Rina Sari", 28);
+            controller.addNewPatient("Rina Sari", 28);
         }, "Penambahan pasien baru dengan data valid seharusnya berhasil.");
         
-        assertNotNull(PatientFactory.getPatientByName("Rina Sari"));
+        List<Patient> patients = PatientFactory.getAllPatients();
+        assertTrue(patients.stream().anyMatch(p -> p.getName().equals("Rina Sari")));
     }
 
     @Test
     @DisplayName("[U-2-02] Skenario Alternatif: Gagal menambah pasien karena input tidak valid")
     void addPatient_FailsWithInvalidAge() {
         Exception e = assertThrows(IllegalArgumentException.class, () -> {
-            controller.addPatient("Budi", -5); // Usia negatif
+            controller.addNewPatient("Budi", -5); // Usia negatif
         }, "Seharusnya melempar error untuk usia yang tidak valid.");
         
         assertEquals("Usia pasien tidak valid!", e.getMessage());

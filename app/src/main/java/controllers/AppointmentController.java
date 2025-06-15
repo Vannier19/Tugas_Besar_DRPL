@@ -38,4 +38,7 @@ public class AppointmentController {
     public List<Appointment> getAllAppointments() {
         return appointmentFactory.getAllAppointments();
     }
+    public List<Appointment> getAppointmentsByDoctorId(String doctorId) {
+        return appointmentFactory.getAppointmentsByDoctor(doctorId);
+    }
 }

@@ -53,19 +53,19 @@ public class LoginController {
 
                 switch (role) {
                     case "System Manager":
-                        dashboardFxmlPath = "/src/views/SystemManagerDashboardPage.fxml";
+                        dashboardFxmlPath = "/views/SystemManagerDashboardPage.fxml";
                         break;
                    
                     case "Administrator":
-                        dashboardFxmlPath = "/src/views/AdminDashboardPage.fxml";
+                        dashboardFxmlPath = "/views/AdminDashboardPage.fxml";
                         break;
 
                     case "Apothecary":
-                        dashboardFxmlPath = "/src/views/ApothecaryDashboardPage.fxml";
+                        dashboardFxmlPath = "/views/ApothecaryDashboardPage.fxml";
                         break;
 
                     case "Dokter":
-                        dashboardFxmlPath = "/src/views/DoctorDashboardPage.fxml";
+                        dashboardFxmlPath = "/views/DoctorDashboardPage.fxml";
                         break;
                     
                     default:

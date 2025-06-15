@@ -56,4 +56,14 @@ public class UserFactory {
     public static boolean deleteUser(String id) {
         return users.remove(id) != null;
     }
+
+    public static User getUserByUsername(String username) {
+        for (User user : users.values()) {
+            if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
 }

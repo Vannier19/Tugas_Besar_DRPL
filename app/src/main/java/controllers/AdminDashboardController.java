@@ -38,31 +38,31 @@ public class AdminDashboardController {
     @FXML
     void handleViewAppointment(ActionEvent event) {
         setActiveButton(viewAppointmentButton);
-        loadPageIntoContainer("/src/views/ViewAppointmentPage.fxml");
+        loadPageIntoContainer("/views/ViewAppointmentPage.fxml");
     }
     
     @FXML
     void handleAddAppointment(ActionEvent event) {
         setActiveButton(addAppointmentButton);
-        loadPageIntoContainer("/src/views/AddAppointmentPage.fxml");
+        loadPageIntoContainer("/views/AddAppointmentPage.fxml");
     }
 
     @FXML
     void handleDeleteAppointment(ActionEvent event) {
         setActiveButton(deleteAppointmentButton);
-        loadPageIntoContainer("/src/views/DeleteAppointmentPage.fxml");
+        loadPageIntoContainer("/views/DeleteAppointmentPage.fxml");
     }
     
     @FXML
     void handleUpdateAppointment(ActionEvent event) {
         setActiveButton(updateAppointmentButton);
-        loadPageIntoContainer("/src/views/UpdateAppointmentPage.fxml");
+        loadPageIntoContainer("/views/UpdateAppointmentPage.fxml");
     }
     
     @FXML
     void handleAccount(ActionEvent event) {
         setActiveButton(accountButton);
-        loadPageIntoContainer("/src/views/AccountPage.fxml");
+        loadPageIntoContainer("/views/AccountPage.fxml");
     }
 
     private void loadPageIntoContainer(String fxmlPath) {
@@ -89,7 +89,7 @@ public class AdminDashboardController {
     private void handleLogout(ActionEvent event) {
         SessionManager.clearSession();
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/views/LoginPage.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/LoginPage.fxml"));
             Parent loginPage = loader.load();
             Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             Scene loginScene = new Scene(loginPage);

@@ -17,6 +17,13 @@ public class PatientFactory {
     }
 
     public PatientFactory() {} // Constructor private
+    
+    public Patient createPatient(String id, String name, int age) {
+        Patient patient = new Patient(id, name, age);
+        patients.put(id, patient);
+        return patient;
+    }
+
 
     public static Patient createPatient(String name, int age) {
         String id = "P" + String.format("%03d", idCounter++);

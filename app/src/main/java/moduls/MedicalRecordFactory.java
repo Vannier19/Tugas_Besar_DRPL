@@ -20,9 +20,9 @@ public class MedicalRecordFactory {
 
     public MedicalRecordFactory() {} // Constructor private
 
-    public static MedicalRecord createMedicalRecord(String patientId, String diagnosis, Date date, String prescription) {
+    public static MedicalRecord createMedicalRecord(String patientId, String diagnosis, Date date) {
         String newId = "MR" + String.format("%03d", idCounter.incrementAndGet());
-        MedicalRecord record = new MedicalRecord(newId, patientId, diagnosis, date, prescription);
+        MedicalRecord record = new MedicalRecord(newId, patientId, diagnosis, date);
         recordsByPatient.computeIfAbsent(patientId, k -> new ArrayList<>()).add(record);
         return record;
     }
@@ -38,4 +38,10 @@ public class MedicalRecordFactory {
         }
         return allRecords;
     }
+    public static void addMedicalRecord(String patientId, String diagnosis, Date date) {
+        String newId = "MR" + String.format("%03d", idCounter.incrementAndGet());
+        MedicalRecord record = new MedicalRecord(newId, patientId, diagnosis, date);
+        recordsByPatient.computeIfAbsent(patientId, k -> new ArrayList<>()).add(record);
+    }
+
 }

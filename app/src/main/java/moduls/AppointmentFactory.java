@@ -56,4 +56,14 @@ public class AppointmentFactory {
             appointmentToUpdate.setAppointmentDate(newDateTime);
         }
     }
+
+    public Appointment getAppointmentAt(LocalDateTime dateTime) {
+        for (Appointment app : appointments.values()) {
+            if (app.getAppointmentDateTime().isEqual(dateTime)) {
+                return app;
+            }
+        }
+        return null;
+    }
+
 }

@@ -11,7 +11,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        URL fxmlLocation = getClass().getResource("/src/views/LoginPage.fxml");
+        URL fxmlLocation = getClass().getResource("/views/LoginPage.fxml");
         if (fxmlLocation == null) {
             System.err.println("ERROR: LoginPage.fxml not found at the specified path!");
             return; 

@@ -79,7 +79,7 @@ public class AccountPageController {
     private void handleLogout(ActionEvent event) {
         SessionManager.clearSession();
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/views/LoginPage.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/LoginPage.fxml"));
             Parent loginPage = loader.load();
 
             Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow(); 

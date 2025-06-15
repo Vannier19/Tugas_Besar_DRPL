@@ -40,17 +40,17 @@ public class SystemManagerDashboardController {
     
     public void navigateToUserManagement() {
         setActiveButton(userManagementButton);
-        loadPageIntoContainer("/src/views/UserManagementPage.fxml");
+        loadPageIntoContainer("/views/UserManagementPage.fxml");
     }
 
     public void navigateToPatientManagement() {
         setActiveButton(patientManagementButton);
-        loadPageIntoContainer("/src/views/PatientManagementPage.fxml"); 
+        loadPageIntoContainer("/views/PatientManagementPage.fxml"); 
     }
 
     public void navigateToAccount() {
         setActiveButton(accountButton); 
-        loadPageIntoContainer("/src/views/AccountPage.fxml");
+        loadPageIntoContainer("/views/AccountPage.fxml");
     }
 
     @FXML
@@ -94,7 +94,7 @@ public class SystemManagerDashboardController {
     private void handleLogout(ActionEvent event) {
         SessionManager.clearSession();
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/views/LoginPage.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/LoginPage.fxml"));
             Parent loginPage = loader.load();
 
             Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();

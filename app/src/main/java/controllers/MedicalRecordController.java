@@ -27,4 +27,11 @@ public class MedicalRecordController {
         }
         return recordFactory.getRecordsByPatientId(patientId);
     }
+    public MedicalRecord getMedicalRecordByPatientId(String patientId) {
+        List<MedicalRecord> records = getMedicalRecords(patientId);
+        if (records != null && !records.isEmpty()) {
+            return records.get(0);
+        }
+        return null;
+    }
 }

@@ -140,12 +140,12 @@ public class ApothecaryDashboardController {
         topCardsHBox.setAlignment(Pos.CENTER);
         VBox.setVgrow(topCardsHBox, Priority.NEVER);
 
-        VBox pharmacyCard = createWelcomeCard("Prescription Management", "/src/assets/prescription_icon.png", "#00D2A3", "Manage Prescriptions");
+        VBox pharmacyCard = createWelcomeCard("Prescription Management", "/src/main/resources/assets/prescription_icon.png", "#00D2A3", "Manage Prescriptions");
         pharmacyCard.setOnMouseClicked(event -> {
             handleViewPrescriptions();
         });
 
-        VBox notificationsCard = createWelcomeCard("View Notifications", "/src/assets/notification_icon.png", "#FF6531", "View Alerts");
+        VBox notificationsCard = createWelcomeCard("View Notifications", "/src/main/resources/assets/notification_icon.png", "#FF6531", "View Alerts");
         notificationsCard.setOnMouseClicked(event -> handleViewNotifications());
 
         topCardsHBox.getChildren().addAll(pharmacyCard, notificationsCard);
@@ -236,13 +236,13 @@ public class ApothecaryDashboardController {
     @FXML
     private void handleMedicineManagement() {
         setActiveButton(medicineManagementButton);
-        loadPageIntoContainer("/src/views/MedicineManagementPage.fxml", "Manajemen Obat");
+        loadPageIntoContainer("/views/MedicineManagementPage.fxml", "Manajemen Obat");
     }
 
     @FXML
     private void handleAccount() {
         setActiveButton(accountButton);
-        loadPageIntoContainer("/src/views/AccountPage.fxml", "Akun Saya");
+        loadPageIntoContainer("/views/AccountPage.fxml", "Akun Saya");
     }
 
     @FXML
@@ -535,7 +535,7 @@ public class ApothecaryDashboardController {
     private void handleLogout(ActionEvent event) {
         SessionManager.clearSession();
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/views/LoginPage.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/LoginPage.fxml"));
             Parent loginPage = loader.load();
 
             Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();

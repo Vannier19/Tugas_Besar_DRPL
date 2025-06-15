@@ -4,7 +4,6 @@ import org.junit.jupiter.api.*;
 import main.java.controllers.*;
 import main.java.moduls.*;
 import main.java.utils.*;
-import main.resources.assets.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -71,7 +70,7 @@ class UserManagementTest {
         Exception e = assertThrows(IllegalArgumentException.class, () -> {
             controller.addUser("", "password123", "Dokter"); // Username kosong
         });
-        assertEquals("Username, password, dan role tidak boleh kosong.", e.getMessage());
+        assertEquals("Username, password, dan role tidak boleh kosong!", e.getMessage());
     }
 
     @Test

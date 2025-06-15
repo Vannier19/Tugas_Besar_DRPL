@@ -5,8 +5,6 @@ import org.junit.jupiter.api.*;
 import main.java.controllers.*;
 import main.java.moduls.*;
 import main.java.utils.*;
-import main.resources.views.*;
-import main.resources.assets.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -42,7 +40,7 @@ class SignInTest {
         Exception e = assertThrows(SecurityException.class, () -> {
             controller.signIn("hans", "password_salah");
         });
-        assertEquals("Username atau password salah.", e.getMessage());
+        assertEquals("Username atau password salah!", e.getMessage());
     }
 
     @Test
@@ -51,7 +49,7 @@ class SignInTest {
         Exception e = assertThrows(SecurityException.class, () -> {
             controller.signIn("user_tidak_ada", "123");
         });
-        assertEquals("Username atau password salah.", e.getMessage());
+        assertEquals("Username atau password salah!", e.getMessage());
     }
 
     @Test
@@ -60,6 +58,6 @@ class SignInTest {
         Exception e = assertThrows(IllegalArgumentException.class, () -> {
             controller.signIn("", "123"); // Username kosong
         });
-        assertEquals("Username dan password tidak boleh kosong.", e.getMessage());
+        assertEquals("Username dan password tidak boleh kosong!", e.getMessage());
     }
 }

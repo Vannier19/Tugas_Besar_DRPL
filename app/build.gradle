@@ -25,9 +25,9 @@ dependencies {
 }
 
 application {
-    // Menentukan kelas utama untuk menjalankan aplikasi
-    mainClass = 'src.Main'
+    mainClass = 'main.java.moduls.Main'
 }
+
 
 test {
     // Menggunakan platform JUnit 5 untuk menjalankan tes
